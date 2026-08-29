@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="it-IT"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title itemprop="name">08 — STP e ICMPv4 | Andrea Romano</title>
+<meta property="og:title" content="08 — STP e ICMPv4 | Andrea Romano" />
+<meta name="twitter:title" content="08 — STP e ICMPv4 | Andrea Romano" />
+<meta itemprop="name" content="08 — STP e ICMPv4 | Andrea Romano" />
+<meta name="application-name" content="08 — STP e ICMPv4 | Andrea Romano" />
+<meta property="og:site_name" content="Andrea Romano" />
+
+<meta name="description" content="Spanning Tree Protocol, prevenzione dei loop e messaggi ICMPv4">
+<meta itemprop="description" content="Spanning Tree Protocol, prevenzione dei loop e messaggi ICMPv4" />
+<meta property="og:description" content="Spanning Tree Protocol, prevenzione dei loop e messaggi ICMPv4" />
+<meta name="twitter:description" content="Spanning Tree Protocol, prevenzione dei loop e messaggi ICMPv4" />
+
+<meta property="og:locale" content="it-IT" />
+<meta name="language" content="it-IT" />
+
+  <link rel="alternate" hreflang="it" href="http://localhost:1313/man/network/08-stp-icmpv4/" title="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.165.0">
+
+    
+    <meta property="og:url" content="http://localhost:1313/man/network/08-stp-icmpv4/">
+	<meta property="og:site_name" content="Andrea Romano">
+	<meta property="og:title" content="08 — STP e ICMPv4">
+	<meta property="og:description" content="Spanning Tree Protocol, prevenzione dei loop e messaggi ICMPv4">
+	<meta property="og:locale" content="it_IT">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="man">
+		<meta property="article:published_time" content="2026-08-29T21:02:10+02:00">
+		<meta property="article:modified_time" content="2026-08-29T21:02:10+02:00">
+
+
+    
+    
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="08 — STP e ICMPv4">
+	<meta name="twitter:description" content="Spanning Tree Protocol, prevenzione dei loop e messaggi ICMPv4">
+
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/man/network/08-stp-icmpv4/">
+    <link href="/style.min.4e4ded410ce988a23b75f82b99ddc7bf77a23209baed4f331439154fafee5cbe.css" rel="stylesheet">
+    <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="theme-color" content="#434648">
+    <meta name="color-scheme" content="light dark">
+
+    
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" crossorigin="anonymous" />
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA=="
+    crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });"></script>
+
+    
+      <link rel="icon" type="image/svg+xml" href="/icons/favicon.min.fd7c380e42464d09dcb5f2064b7fd498cfb828d195efa65aa8e7b813b98a9b60.svg">
+
+    
+</head>
+<body data-theme = "dark" class="notransition">
+
+<script src="/js/theme.js"></script>
+
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="http://localhost:1313/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+stroke-linejoin="round" class="feather feather-home">
+<title>Inizio</title>
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"></path><path stroke-linecap="round" stroke-linejoin="round" d="M0.5 12.5V1.5C0.5 0.947715 0.947715 0.5 1.5 0.5H12.5C13.0523 0.5 13.5 0.947715 13.5 1.5V12.5C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C0.947715 13.5 0.5 13.0523 0.5 12.5Z"></path></svg>
+            </span>
+        </label>
+
+        <div class="trigger">
+            <ul class="trigger-container">
+                
+                
+                <li>
+                    <a class="menu-link " href="/">
+                        Hello World
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link active" href="/man/">
+                        man
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/posts/">
+                        posts
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/whoami/">
+                        whoami
+                    </a>
+                    
+                </li>
+                
+                <li class="menu-separator">
+                    <span>|</span>
+                </li>
+                
+                
+            </ul>
+            <a id="mode" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-sunny" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>LIGHT</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-moon" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>DARK</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="wrapper post man-page">
+    <main class="page-content" aria-label="Content">
+        <nav class="man-path" aria-label="Percorso">
+    <a href="/" aria-label="Home">~</a><span>/</span>
+    
+        
+    
+        
+            <a href="/man/">man</a><span>/</span>
+        
+    
+        
+            <a href="/man/network/">network</a><span>/</span>
+        
+    
+    <span aria-current="page">08 — STP e ICMPv4</span>
+</nav>
+
+        <article>
+            <header class="header man-header">
+                <h1 class="header-title">08 — STP e ICMPv4</h1>
+                <p class="man-description">Spanning Tree Protocol, prevenzione dei loop e messaggi ICMPv4</p>
+            </header>
+            
+    
+        
+            
+        
+    
+    <details class="toc" open>
+        <summary><b>Sommario</b></summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-il-problema-del-layer-2-broadcast-storm">1. Il problema del Layer 2: Broadcast Storm</a></li>
+    <li><a href="#2-come-funziona-lo-stp-ieee-8021d">2. Come funziona lo STP (IEEE 802.1D)</a>
+      <ul>
+        <li><a href="#lalgoritmo-in-3-passi">L&rsquo;algoritmo in 3 passi</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-icmpv4-internet-control-message-protocol">3. ICMPv4 (Internet Control Message Protocol)</a>
+      <ul>
+        <li><a href="#a-cosa-serve">A cosa serve?</a></li>
+        <li><a href="#anatomia-dellheader-icmp-8-byte-fissi">Anatomia dell&rsquo;Header ICMP (8 Byte fissi)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </details>
+            <div class="page-content">
+                <h2 id="1-il-problema-del-layer-2-broadcast-storm">1. Il problema del Layer 2: Broadcast Storm</h2>
+<blockquote>
+<p><strong>Nota</strong></p>
+<p><strong>Perché serve lo STP?</strong></p>
+<p>Nelle reti aziendali vogliamo <strong>ridondanza</strong> (più cavi e più switch per evitare che un guasto fermi tutto).</p>
+<p>Tuttavia, gli Switch (Livello 2) non hanno un meccanismo come il TTL (Time To Live) dell&rsquo;IP. Se si crea un loop fisico, i pacchetti broadcast iniziano a girare all&rsquo;infinito moltiplicandosi, causando un <strong>Broadcast Storm</strong> che fa crashare l&rsquo;intera rete in pochi secondi.</p>
+</blockquote>
+<ul>
+<li><strong>Il problema:</strong> La MAC Address Table impazzisce (lo switch vede lo stesso MAC arrivare da porte diverse in continuazione) e la CPU va al 100%.</li>
+<li><strong>La soluzione:</strong> Lo <strong>STP (Spanning Tree Protocol)</strong>. Un demone sempre in esecuzione che blocca logicamente i loop fisici.</li>
+</ul>
+<p>Per approfondire:</p>
+<p><a href="https://www.youtube.com/watch?v=J47NyICCtuQ&amp;list=PLod5uVuFMqhaEu_Qn9MmUbT6AiASm9Mja&amp;index=27">Video: introduzione allo Spanning Tree Protocol</a></p>
+<p><a href="https://i.makeagif.com/media/2-15-2016/Ie59Cy.mp4">Animazione di una broadcast storm</a></p>
+<h2 id="2-come-funziona-lo-stp-ieee-8021d">2. Come funziona lo STP (IEEE 802.1D)</h2>
+<p>Lo STP si basa sulla teoria dei grafi: trasforma un &ldquo;grafo completo&rdquo; (tutti interconnessi, con loop) in uno <strong>Spanning Tree</strong> (grafo connesso senza loop).</p>
+<p><strong>Grafo completo</strong>: tuti nodi interconnessi tra loro con maggior numero di archi</p>
+<p><img src="complete-graph.png" alt="Esempio di grafo completo"></p>
+<p>$$
+archi=\frac{n(n-1)}{2}
+$$</p>
+<p><strong>Spanning tree:</strong> grafo connesso con minor numero di archi</p>
+<p><img src="spanning-tree.png" alt="Esempio di spanning tree"></p>
+<p><img src="spanning-tree-example.png" alt="Confronto tra topologia ridondante e spanning tree"></p>
+<p>$$
+ST_{possibili}=n^{n-2}
+$$</p>
+<h3 id="lalgoritmo-in-3-passi">L&rsquo;algoritmo in 3 passi</h3>
+<p>Gli switch comunicano tra loro scambiandosi messaggi chiamati <strong>BPDU (Bridge Protocol Data Unit)</strong>.</p>
+<ol>
+<li><strong>Elezione del Root Bridge (Il &ldquo;Capo&rdquo;):</strong>
+<ul>
+<li>Vince lo switch con il <strong>Bridge ID più basso</strong>.</li>
+<li>Il Bridge ID è composto da: <code>Priority + MAC Address</code>.</li>
+<li><em>Esempio:</em> Se tutti hanno la priority di default (32768), vince chi ha il <strong>MAC Address più basso</strong> (es. <code>00E0.F7C8.6847</code>).</li>
+</ul>
+</li>
+<li><strong>Calcolo del percorso migliore:</strong>
+<ul>
+<li>Tutti gli altri switch (Non-Root) calcolano il percorso con il &ldquo;Costo&rdquo; minore per raggiungere il Root Bridge (il costo dipende dalla velocità del cavo, es. Gigabit costa meno di FastEthernet).</li>
+</ul>
+</li>
+<li><strong>Assegnazione dei ruoli alle porte:</strong>
+<ul>
+<li><strong>Root Port (RP):</strong> La porta che guarda <em>verso</em> il Root Bridge (percorso più veloce).</li>
+<li><strong>Designated Port (DP):</strong> La porta che allontana dal Root Bridge. <em>(Nota: Il Root Bridge ha SOLO Designated Ports).</em></li>
+<li><strong>Blocking Port (BLK):</strong> La porta disattivata logicamente per spezzare il loop. Se un cavo principale si rompe, l&rsquo;algoritmo dinamico la riattiva automaticamente.</li>
+</ul>
+</li>
+</ol>
+<p><img src="stp-port-roles.png" alt="Switch AS1 ha solo Designated ports per via del suo MAC address"></p>
+<p>Switch AS1 ha solo Designated ports per via del suo MAC address</p>
+<p>Per approfondire:</p>
+<p><a href="https://www.youtube.com/watch?v=kxEmuL5tEek&amp;list=PLod5uVuFMqhaEu_Qn9MmUbT6AiASm9Mja&amp;index=28">Video: elezione del root bridge e ruoli delle porte STP</a></p>
+<p><img src="stp-switch-status.png" alt="Stato STP delle porte degli switch"></p>
+<p>Vista di due switch: a priorità di priority <code>32769</code> viene scelto switch con MAC Address minore <code>00E0.F7C8.6847</code></p>
+<p>Da notare come il ruolo delle due porte ethernet cambi: per lo switch a destra abbiamo una Fa0/1 con ruolo <code>Desg</code> , mentre per quello a sinistra un ruolo di <code>root</code></p>
+<h2 id="3-icmpv4-internet-control-message-protocol">3. ICMPv4 (Internet Control Message Protocol)</h2>
+<h3 id="a-cosa-serve">A cosa serve?</h3>
+<ul>
+<li><strong>Segnalazione Errori:</strong> Avvisa se un router scarta un pacchetto (es. TTL scaduto, Rete non raggiungibile).</li>
+<li><strong>Query/Response:</strong> Diagnostica di rete (il comando <strong>Ping</strong> e <strong>Traceroute</strong> si basano su ICMP).</li>
+</ul>
+<h3 id="anatomia-dellheader-icmp-8-byte-fissi">Anatomia dell&rsquo;Header ICMP (8 Byte fissi)</h3>
+<table>
+	<thead>
+			<tr>
+					<th><strong>Campo</strong></th>
+					<th><strong>Bit</strong></th>
+					<th><strong>Descrizione</strong></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Type</strong></td>
+					<td>8</td>
+					<td>Categoria del messaggio: <code>0</code> Echo Reply; <code>3</code> Destination Unreachable; <code>8</code> Echo Request; <code>11</code> Time Exceeded.</td>
+			</tr>
+			<tr>
+					<td><strong>Code</strong></td>
+					<td>8</td>
+					<td>Specifica il motivo esatto relativo al <em>Type</em>.</td>
+			</tr>
+			<tr>
+					<td><strong>Checksum</strong></td>
+					<td>16</td>
+					<td>Controllo di integrità del messaggio.</td>
+			</tr>
+			<tr>
+					<td><strong>Data</strong></td>
+					<td>Var</td>
+					<td>Dati variabili (es. una copia dell&rsquo;header IP del pacchetto che ha causato l&rsquo;errore).</td>
+			</tr>
+	</tbody>
+</table>
+
+            </div>
+        </article>
+    </main>
+</div>
+<footer class="footer">
+    <span class="footer_item"> </span>
+    &nbsp;
+
+    <div class="footer_social-icons">
+<a href="https://github.com/hash-andre" target="_blank" rel="noopener noreferrer me"
+    title="Github">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+</a>
+<a href="https://www.linkedin.com/in/andrearomano95/" target="_blank" rel="noopener noreferrer me"
+    title="Linkedin">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+</svg>
+</a>
+</div>
+    <small class="footer_copyright">
+        © 2026 Andrea Romano.
+        Generato dal tema <a href="https://github.com/hugo-sid/hugo-blog-awesome" target="_blank" rel="noopener">Hugo blog awesome</a>.
+    </small>
+</footer><a href="#" title="Torna all&#39;inizio" id="totop">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" stroke="currentColor" viewBox="0 96 960 960">
+    <path d="M283 704.739 234.261 656 480 410.261 725.739 656 677 704.739l-197-197-197 197Z"/>
+</svg>
+
+</a>
+
+
+    
+
+
+
+
+
+
+    
+    <script async src="http://localhost:1313/js/main.js" ></script>
+
+    
+
+</body>
+</html>

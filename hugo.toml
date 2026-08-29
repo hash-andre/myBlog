@@ -30,7 +30,7 @@ pluralizeListTitles = false
   [[menu.main]]
     name = "whoami"
     pageRef = "/whoami"
-    weight = 30
+    weight = 40
 
 [params]
   sitename = "Andrea Romano"

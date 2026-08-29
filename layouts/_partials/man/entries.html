@@ -1,0 +1,9 @@
+{{- $pages := .pages -}}
+{{- range $pages.ByWeight -}}
+<li class="man-entry{{ if .IsSection }} man-directory{{ else }} man-document{{ end }}">
+    <div class="man-entry-line">
+        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}{{ if .IsSection }}/{{ end }}</a>
+        {{ with .Description }}<span class="man-entry-description">{{ . }}</span>{{ end }}
+    </div>
+</li>
+{{- end -}}

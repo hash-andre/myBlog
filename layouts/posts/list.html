@@ -1,0 +1,19 @@
+{{- define "main" -}}
+{{- $pages := partial "timeline-pages.html" . -}}
+<div class="wrapper list-page">
+    <header class="header">
+        <h1 class="header-title center">{{ .Title }}</h1>
+        {{ with .Description }}<p class="man-description center">{{ . }}</p>{{ end }}
+    </header>
+    <main class="page-content" aria-label="Content">
+        {{ range $pages.GroupByDate "2006" }}
+        <h2 class="post-year">{{ .Key }}</h2>
+        {{ range .Pages }}
+            {{ partial "postCard" . }}
+        {{ end }}
+        {{ else }}
+        <p>Non ci sono ancora contenuti pubblicati.</p>
+        {{ end }}
+    </main>
+</div>
+{{- end -}}

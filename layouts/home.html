@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{{- $defaultColor := .Site.Params.defaultColor | default "auto" -}}
+
+{{- if eq $defaultColor "dark" -}}
+<html lang="{{ .Site.Language.Locale }}" class="dark">
+{{- else if eq $defaultColor "light" -}}
+<html lang="{{ .Site.Language.Locale }}" class="light">
+{{- else -}}
+<html lang="{{ .Site.Language.Locale }}">
+{{- end -}}
+
+{{- partial "head.html" . -}}
+
+<body data-theme="{{ $defaultColor }}" class="notransition">
+    {{- partial "scriptsBodyStart.html" . -}}
+    {{- partial "header.html" . -}}
+    <div class="wrapper">
+        {{ partial "bio" . }}
+        <main aria-label="Content">
+            <h3 class="posts-item-note" aria-label="Recent Posts">{{ T "home.recent_posts" }}</h3>
+            {{ $posts := partial "timeline-pages.html" . }}
+            {{ range first 5 $posts }}
+                {{ partial "postCard" . }}
+            {{ end }}
+            {{ if gt (len $posts) 5 }}
+            <p><a href="{{ relLangURL "posts/" }}">{{ T "home.see_all_posts" }}</a></p>
+            {{ end }}
+        </main>
+    </div>
+    {{- partial "footer.html" . -}}
+    {{- partial "scriptsBodyEnd.html" . -}}
+</body>
+
+</html>

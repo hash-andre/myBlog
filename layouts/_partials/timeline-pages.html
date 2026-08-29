@@ -1,0 +1,4 @@
+{{- $standalonePosts := where site.RegularPages "Section" "posts" -}}
+{{- $manualEntries := where site.RegularPages "Params.show_in_posts" true -}}
+{{- $pages := union $standalonePosts $manualEntries -}}
+{{- return $pages.ByDate.Reverse -}}

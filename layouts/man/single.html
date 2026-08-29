@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="wrapper post man-page">
+    <main class="page-content" aria-label="Content">
+        {{ partial "man/breadcrumb.html" . }}
+        <article>
+            <header class="header man-header">
+                <h1 class="header-title">{{ .Title }}</h1>
+                {{ with .Description }}<p class="man-description">{{ . }}</p>{{ end }}
+            </header>
+            {{ partial "toc.html" . }}
+            <div class="page-content">
+                {{ .Content }}
+            </div>
+        </article>
+    </main>
+</div>
+{{ end }}

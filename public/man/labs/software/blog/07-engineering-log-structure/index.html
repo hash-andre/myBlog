@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="it-IT"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title itemprop="name">07 — Turning blog documentation into an engineering log | Andrea Romano</title>
+<meta property="og:title" content="07 — Turning blog documentation into an engineering log | Andrea Romano" />
+<meta name="twitter:title" content="07 — Turning blog documentation into an engineering log | Andrea Romano" />
+<meta itemprop="name" content="07 — Turning blog documentation into an engineering log | Andrea Romano" />
+<meta name="application-name" content="07 — Turning blog documentation into an engineering log | Andrea Romano" />
+<meta property="og:site_name" content="Andrea Romano" />
+
+<meta name="description" content="Why the technical blog became a directory and how future logs should be written">
+<meta itemprop="description" content="Why the technical blog became a directory and how future logs should be written" />
+<meta property="og:description" content="Why the technical blog became a directory and how future logs should be written" />
+<meta name="twitter:description" content="Why the technical blog became a directory and how future logs should be written" />
+
+<meta property="og:locale" content="it-IT" />
+<meta name="language" content="it-IT" />
+
+  <link rel="alternate" hreflang="it" href="http://localhost:1313/man/labs/software/blog/07-engineering-log-structure/" title="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.165.0">
+
+    
+    <meta property="og:url" content="http://localhost:1313/man/labs/software/blog/07-engineering-log-structure/">
+	<meta property="og:site_name" content="Andrea Romano">
+	<meta property="og:title" content="07 — Turning blog documentation into an engineering log">
+	<meta property="og:description" content="Why the technical blog became a directory and how future logs should be written">
+	<meta property="og:locale" content="it_IT">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="man">
+		<meta property="article:published_time" content="2026-08-29T23:50:00+02:00">
+		<meta property="article:modified_time" content="2026-08-29T23:50:00+02:00">
+
+
+    
+    
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="07 — Turning blog documentation into an engineering log">
+	<meta name="twitter:description" content="Why the technical blog became a directory and how future logs should be written">
+
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/man/labs/software/blog/07-engineering-log-structure/">
+    <link href="/style.min.4e4ded410ce988a23b75f82b99ddc7bf77a23209baed4f331439154fafee5cbe.css" rel="stylesheet">
+    <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="theme-color" content="#434648">
+    <meta name="color-scheme" content="light dark">
+
+    
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+
+    
+    
+      <link rel="icon" type="image/svg+xml" href="/icons/favicon.min.fd7c380e42464d09dcb5f2064b7fd498cfb828d195efa65aa8e7b813b98a9b60.svg">
+
+    
+</head>
+<body data-theme = "dark" class="notransition">
+
+<script src="/js/theme.js"></script>
+
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="http://localhost:1313/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+stroke-linejoin="round" class="feather feather-home">
+<title>Inizio</title>
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"></path><path stroke-linecap="round" stroke-linejoin="round" d="M0.5 12.5V1.5C0.5 0.947715 0.947715 0.5 1.5 0.5H12.5C13.0523 0.5 13.5 0.947715 13.5 1.5V12.5C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C0.947715 13.5 0.5 13.0523 0.5 12.5Z"></path></svg>
+            </span>
+        </label>
+
+        <div class="trigger">
+            <ul class="trigger-container">
+                
+                
+                <li>
+                    <a class="menu-link " href="/">
+                        Hello World
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link active" href="/man/">
+                        man
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/posts/">
+                        posts
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/whoami/">
+                        whoami
+                    </a>
+                    
+                </li>
+                
+                <li class="menu-separator">
+                    <span>|</span>
+                </li>
+                
+                
+            </ul>
+            <a id="mode" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-sunny" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>LIGHT</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-moon" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>DARK</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="wrapper post man-page">
+    <main class="page-content" aria-label="Content">
+        <nav class="man-path" aria-label="Percorso">
+    <a href="/" aria-label="Home">~</a><span>/</span>
+    
+        
+    
+        
+            <a href="/man/">man</a><span>/</span>
+        
+    
+        
+            <a href="/man/labs/">labs</a><span>/</span>
+        
+    
+        
+            <a href="/man/labs/software/">software</a><span>/</span>
+        
+    
+        
+            <a href="/man/labs/software/blog/">blog</a><span>/</span>
+        
+    
+    <span aria-current="page">07 — Turning blog documentation into an engineering log</span>
+</nav>
+
+        <article>
+            <header class="header man-header">
+                <h1 class="header-title">07 — Turning blog documentation into an engineering log</h1>
+                <p class="man-description">Why the technical blog became a directory and how future logs should be written</p>
+            </header>
+            
+    
+        
+            
+        
+    
+    <details class="toc" open>
+        <summary><b>Sommario</b></summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-previous-shape">The previous shape</a></li>
+    <li><a href="#the-branch-conversion">The branch conversion</a></li>
+    <li><a href="#why-logs-instead-of-one-living-document">Why logs instead of one living document</a></li>
+    <li><a href="#naming-and-ordering">Naming and ordering</a></li>
+    <li><a href="#chronology-without-duplication">Chronology without duplication</a></li>
+    <li><a href="#standard-front-matter-for-a-new-log">Standard front matter for a new log</a></li>
+    <li><a href="#standard-reasoning-structure">Standard reasoning structure</a></li>
+    <li><a href="#source-snippets-and-generated-files">Source snippets and generated files</a></li>
+    <li><a href="#relationship-with-a-future-readme">Relationship with a future README</a></li>
+    <li><a href="#definition-of-done-for-this-conversion">Definition of done for this conversion</a></li>
+  </ul>
+</nav>
+    </details>
+            <div class="page-content">
+                <h2 id="the-previous-shape">The previous shape</h2>
+<p>Technical documentation originally lived in one file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>content/man/labs/software/blog/
+</span></span><span style="display:flex;"><span>└── index.md
+</span></span></code></pre></div><p>This was a Hugo leaf bundle: one readable page, optionally accompanied by its
+resources. It worked while the documentation was short, but it mixed unrelated
+layers:</p>
+<ul>
+<li>initial project motivation;</li>
+<li>content architecture;</li>
+<li>Notion import rules;</li>
+<li>post aggregation;</li>
+<li>favicon and math fixes;</li>
+<li>network and Odin import reports;</li>
+<li>local build commands.</li>
+</ul>
+<p>Adding more headings would make the table of contents longer without producing
+a useful history. More importantly, a leaf bundle cannot contain descendant
+pages. The filesystem shape was contradicting the new requirement.</p>
+<h2 id="the-branch-conversion">The branch conversion</h2>
+<p>The directory now uses <code>_index.md</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>content/man/labs/software/blog/
+</span></span><span style="display:flex;"><span>├── _index.md
+</span></span><span style="display:flex;"><span>├── 00-building-the-blog/
+</span></span><span style="display:flex;"><span>│   ├── index.md
+</span></span><span style="display:flex;"><span>│   └── resources...
+</span></span><span style="display:flex;"><span>├── 01-content-architecture/
+</span></span><span style="display:flex;"><span>│   └── index.md
+</span></span><span style="display:flex;"><span>└── ...
+</span></span></code></pre></div><p>This turns <code>blog/</code> into a Hugo branch bundle. The branch page provides the
+purpose of the directory and the manual template lists each immediate log. Each
+log remains a leaf bundle so it can carry screenshots or diagrams beside its
+Markdown.</p>
+<h2 id="why-logs-instead-of-one-living-document">Why logs instead of one living document</h2>
+<p>A single living document is good at describing the current state. It is weak at
+explaining how that state emerged. An engineering log preserves both:</p>
+<ul>
+<li>the trigger or symptom;</li>
+<li>the assumptions made at that moment;</li>
+<li>the alternatives rejected;</li>
+<li>the exact implementation;</li>
+<li>the verification evidence;</li>
+<li>the lesson that should influence future changes.</li>
+</ul>
+<p>This is especially useful when the same symptom can have several causes. “The
+favicon is missing” could mean a wrong asset name, a wrong template lookup path,
+a stale build, a wrong URL, or browser cache. A log records which cause was
+actually observed here.</p>
+<h2 id="naming-and-ordering">Naming and ordering</h2>
+<p>Log directories use a numeric prefix and a descriptive slug:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>07-engineering-log-structure/
+</span></span></code></pre></div><p>The prefix makes the source tree readable without relying on front matter. The
+front matter <code>weight</code> separately controls the manual view:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">weight</span>: <span style="color:#ae81ff">80</span>
+</span></span></code></pre></div><p>Weights use increments of ten so a related entry can be inserted later without
+renumbering every existing page.</p>
+<p>The page title repeats the sequence number for visible context:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">title</span>: <span style="color:#e6db74">&#34;07 — Turning blog documentation into an engineering log&#34;</span>
+</span></span></code></pre></div><h2 id="chronology-without-duplication">Chronology without duplication</h2>
+<p>Every engineering log is both technical documentation and a record of work. It
+therefore receives:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">date</span>: <span style="color:#e6db74">2026-08-29T23:50:00</span><span style="color:#ae81ff">+02</span>:<span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">show_in_posts</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><p>The canonical content remains under <code>man/labs/software/blog</code>. The shared
+timeline partial makes it appear under <code>posts</code>, home, and RSS. No second
+Markdown file is created.</p>
+<p>This gives the two useful orders again:</p>
+<ul>
+<li><code>weight</code> represents the conceptual sequence inside the engineering manual;</li>
+<li><code>date</code> represents when the work was documented.</li>
+</ul>
+<h2 id="standard-front-matter-for-a-new-log">Standard front matter for a new log</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">title</span>: <span style="color:#e6db74">&#34;08 — Short description of the change&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;What problem this log explains&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">date</span>: <span style="color:#e6db74">2026-08-30T10:00:00</span><span style="color:#ae81ff">+02</span>:<span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">show_in_posts</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">weight</span>: <span style="color:#ae81ff">90</span>
+</span></span><span style="display:flex;"><span>---
+</span></span></code></pre></div><p>The date must include the local UTC offset. The title and description should
+describe the outcome, not use a vague label such as “updates”.</p>
+<h2 id="standard-reasoning-structure">Standard reasoning structure</h2>
+<p>A future log should normally answer these questions in order:</p>
+<ol>
+<li><strong>What did I observe?</strong> Include the visible symptom or missing capability.</li>
+<li><strong>What should the system do?</strong> State the desired behavior precisely.</li>
+<li><strong>What owns that behavior?</strong> Identify content, configuration, template,
+asset pipeline, generated output, browser, or deployment.</li>
+<li><strong>What evidence identified the cause?</strong> Include relevant source snippets or
+generated HTML, not only the conclusion.</li>
+<li><strong>What changed?</strong> Name files and explain the role of each change.</li>
+<li><strong>Why this solution?</strong> Record trade-offs and rejected alternatives.</li>
+<li><strong>How was it verified?</strong> State commands, counts, paths, and expected output.</li>
+<li><strong>What remains?</strong> Separate a real follow-up from work that is already done.</li>
+</ol>
+<p>Not every entry needs exactly these headings, but it should preserve this chain
+of reasoning. The reader should be able to reconstruct the decision without
+access to the original conversation.</p>
+<h2 id="source-snippets-and-generated-files">Source snippets and generated files</h2>
+<p>Logs should quote the smallest source snippet that explains a mechanism. Large
+files become stale when copied wholesale into documentation.</p>
+<p>Generated files under <code>public/</code> can be cited as verification evidence, but they
+are not the implementation source. A log should always point first to the
+content, layout, asset, or configuration that owns the result.</p>
+<h2 id="relationship-with-a-future-readme">Relationship with a future README</h2>
+<p>A README and an engineering log solve different problems.</p>
+<p>The future root <code>README.md</code> should be concise:</p>
+<ul>
+<li>what the project is;</li>
+<li>prerequisites;</li>
+<li>how to clone the theme submodule;</li>
+<li>how to run the local server;</li>
+<li>how to perform a production build;</li>
+<li>the high-level content tree;</li>
+<li>links to detailed documentation.</li>
+</ul>
+<p>It should not duplicate the complete history of favicon debugging, archive
+mapping, or Markdown cleanup. Those details belong here. The README can link to
+the relevant published log or source path.</p>
+<p>This separation keeps onboarding fast without discarding the reasoning that
+makes maintenance safe.</p>
+<h2 id="definition-of-done-for-this-conversion">Definition of done for this conversion</h2>
+<p>The directory conversion is complete when:</p>
+<ul>
+<li><code>blog/</code> contains <code>_index.md</code> and no old <code>index.md</code> leaf page;</li>
+<li>every log is an immediate leaf bundle with valid front matter;</li>
+<li>the three supplied screenshots belong to the first log bundle;</li>
+<li><code>/man/labs/software/blog/</code> lists all logs as files;</li>
+<li>every log has a canonical <code>/man/.../blog/.../</code> URL;</li>
+<li>every log appears in <code>/posts/</code> and RSS exactly once;</li>
+<li>no image path contains the old Notion directory or <code>%20</code>;</li>
+<li>the Hugo build completes without warnings;</li>
+<li>the original ZIP remains unchanged.</li>
+</ul>
+<p>The result is not the final documentation. It is a structure that makes detailed
+documentation sustainable as the site continues to change.</p>
+
+            </div>
+        </article>
+    </main>
+</div>
+<footer class="footer">
+    <span class="footer_item"> </span>
+    &nbsp;
+
+    <div class="footer_social-icons">
+<a href="https://github.com/hash-andre" target="_blank" rel="noopener noreferrer me"
+    title="Github">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+</a>
+<a href="https://www.linkedin.com/in/andrearomano95/" target="_blank" rel="noopener noreferrer me"
+    title="Linkedin">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+</svg>
+</a>
+</div>
+    <small class="footer_copyright">
+        © 2026 Andrea Romano.
+        Generato dal tema <a href="https://github.com/hugo-sid/hugo-blog-awesome" target="_blank" rel="noopener">Hugo blog awesome</a>.
+    </small>
+</footer><a href="#" title="Torna all&#39;inizio" id="totop">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" stroke="currentColor" viewBox="0 96 960 960">
+    <path d="M283 704.739 234.261 656 480 410.261 725.739 656 677 704.739l-197-197-197 197Z"/>
+</svg>
+
+</a>
+
+
+    
+
+
+
+
+
+
+    
+    <script async src="http://localhost:1313/js/main.js" ></script>
+
+    
+
+</body>
+</html>

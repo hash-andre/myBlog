@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="it-IT"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title itemprop="name">02 — Ethernet cablato: livello Data-Link (L2) | Andrea Romano</title>
+<meta property="og:title" content="02 — Ethernet cablato: livello Data-Link (L2) | Andrea Romano" />
+<meta name="twitter:title" content="02 — Ethernet cablato: livello Data-Link (L2) | Andrea Romano" />
+<meta itemprop="name" content="02 — Ethernet cablato: livello Data-Link (L2) | Andrea Romano" />
+<meta name="application-name" content="02 — Ethernet cablato: livello Data-Link (L2) | Andrea Romano" />
+<meta property="og:site_name" content="Andrea Romano" />
+
+<meta name="description" content="MAC address, frame Ethernet, MTU e frammentazione">
+<meta itemprop="description" content="MAC address, frame Ethernet, MTU e frammentazione" />
+<meta property="og:description" content="MAC address, frame Ethernet, MTU e frammentazione" />
+<meta name="twitter:description" content="MAC address, frame Ethernet, MTU e frammentazione" />
+
+<meta property="og:locale" content="it-IT" />
+<meta name="language" content="it-IT" />
+
+  <link rel="alternate" hreflang="it" href="http://localhost:1313/man/network/02-ethernet-data-link-layer/" title="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.165.0">
+
+    
+    <meta property="og:url" content="http://localhost:1313/man/network/02-ethernet-data-link-layer/">
+	<meta property="og:site_name" content="Andrea Romano">
+	<meta property="og:title" content="02 — Ethernet cablato: livello Data-Link (L2)">
+	<meta property="og:description" content="MAC address, frame Ethernet, MTU e frammentazione">
+	<meta property="og:locale" content="it_IT">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="man">
+		<meta property="article:published_time" content="2026-08-29T21:00:00+02:00">
+		<meta property="article:modified_time" content="2026-08-29T21:00:00+02:00">
+
+
+    
+    
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="02 — Ethernet cablato: livello Data-Link (L2)">
+	<meta name="twitter:description" content="MAC address, frame Ethernet, MTU e frammentazione">
+
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/man/network/02-ethernet-data-link-layer/">
+    <link href="/style.min.4e4ded410ce988a23b75f82b99ddc7bf77a23209baed4f331439154fafee5cbe.css" rel="stylesheet">
+    <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="theme-color" content="#434648">
+    <meta name="color-scheme" content="light dark">
+
+    
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" crossorigin="anonymous" />
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA=="
+    crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });"></script>
+
+    
+      <link rel="icon" type="image/svg+xml" href="/icons/favicon.min.fd7c380e42464d09dcb5f2064b7fd498cfb828d195efa65aa8e7b813b98a9b60.svg">
+
+    
+</head>
+<body data-theme = "dark" class="notransition">
+
+<script src="/js/theme.js"></script>
+
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="http://localhost:1313/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+stroke-linejoin="round" class="feather feather-home">
+<title>Inizio</title>
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"></path><path stroke-linecap="round" stroke-linejoin="round" d="M0.5 12.5V1.5C0.5 0.947715 0.947715 0.5 1.5 0.5H12.5C13.0523 0.5 13.5 0.947715 13.5 1.5V12.5C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C0.947715 13.5 0.5 13.0523 0.5 12.5Z"></path></svg>
+            </span>
+        </label>
+
+        <div class="trigger">
+            <ul class="trigger-container">
+                
+                
+                <li>
+                    <a class="menu-link " href="/">
+                        Hello World
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link active" href="/man/">
+                        man
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/posts/">
+                        posts
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/whoami/">
+                        whoami
+                    </a>
+                    
+                </li>
+                
+                <li class="menu-separator">
+                    <span>|</span>
+                </li>
+                
+                
+            </ul>
+            <a id="mode" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-sunny" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>LIGHT</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-moon" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>DARK</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="wrapper post man-page">
+    <main class="page-content" aria-label="Content">
+        <nav class="man-path" aria-label="Percorso">
+    <a href="/" aria-label="Home">~</a><span>/</span>
+    
+        
+    
+        
+            <a href="/man/">man</a><span>/</span>
+        
+    
+        
+            <a href="/man/network/">network</a><span>/</span>
+        
+    
+    <span aria-current="page">02 — Ethernet cablato: livello Data-Link (L2)</span>
+</nav>
+
+        <article>
+            <header class="header man-header">
+                <h1 class="header-title">02 — Ethernet cablato: livello Data-Link (L2)</h1>
+                <p class="man-description">MAC address, frame Ethernet, MTU e frammentazione</p>
+            </header>
+            
+    
+        
+            
+        
+    
+    <details class="toc" open>
+        <summary><b>Sommario</b></summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-il-mac-address-indirizzamento-fisico">1. Il MAC Address (Indirizzamento Fisico)</a>
+      <ul>
+        <li><a href="#anatomia-del-mac-address">Anatomia del MAC Address</a></li>
+        <li><a href="#-mac-randomization--privacy">⚠️ MAC Randomization &amp; Privacy</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-ethernet-frame-ieee-8023">2. Ethernet Frame (IEEE 802.3)</a>
+      <ul>
+        <li><a href="#a-layer-1-preludio-fisico">A. Layer 1 (Preludio fisico)</a></li>
+        <li><a href="#b-header-intestazione-l2">B. Header (Intestazione L2)</a></li>
+        <li><a href="#c-payload-il-carico-utile">C. Payload (Il carico utile)</a></li>
+        <li><a href="#d-trailer-coda">D. Trailer (Coda)</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-mtu--frammentazione">3. MTU &amp; Frammentazione</a></li>
+  </ul>
+</nav>
+    </details>
+            <div class="page-content">
+                <h2 id="1-il-mac-address-indirizzamento-fisico">1. Il MAC Address (Indirizzamento Fisico)</h2>
+<p>Il <strong>MAC (Media Access Control)</strong> è l&rsquo;indirizzo fisico &ldquo;stampato&rdquo; sulla scheda di rete (NIC).</p>
+<ul>
+<li><strong>Funzione:</strong> Permette la consegna dei dati all&rsquo;interno della stessa rete locale (LAN).</li>
+<li><strong>Protocollo ARP:</strong> Serve a mappare l&rsquo;IP (Logico) al MAC (Fisico).
+<ul>
+<li><em>Regola:</em> Se devo uscire dalla LAN (andare su Internet), uso l&rsquo;IP e passo per il Router. Se resto nella LAN, uso il MAC e passo per lo Switch.</li>
+</ul>
+</li>
+<li><strong>Struttura:</strong> 48 bit (6 Byte), rappresentati in esadecimale (es. <code>00:1A:2B:3C:4D:5E</code>).</li>
+</ul>
+<h3 id="anatomia-del-mac-address">Anatomia del MAC Address</h3>
+<p>L&rsquo;indirizzo è diviso in due parti uguali di 24 bit (3 Byte) ciascuna:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Parte</th>
+					<th>Nome</th>
+					<th>Descrizione</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Primi 3 Byte</strong></td>
+					<td><strong>OUI</strong> (Organizationally Unique Identifier)</td>
+					<td>Codice assegnato dall&rsquo;IEEE al <strong>produttore</strong> (es. Apple, Dell, Cisco).</td>
+			</tr>
+			<tr>
+					<td><strong>Ultimi 3 Byte</strong></td>
+					<td><strong>NIC Specific</strong> (Network Interface Controller)</td>
+					<td>Numero seriale univoco assegnato dal produttore alla singola scheda.</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p>🧮 Facciamo due conti**:**
+Con 24 bit dedicati alla scheda specifica, ogni produttore ha a disposizione:</p>
+<p>$2^{24}=16.777.216$
+indirizzi univoci per ogni OUI posseduto.</p>
+</blockquote>
+<h3 id="-mac-randomization--privacy">⚠️ MAC Randomization &amp; Privacy</h3>
+<p>Su dispositivi moderni (iOS, Android, Windows 10/11), il MAC reale viene nascosto quando si fa scansione Wi-Fi.</p>
+<ul>
+<li><strong>Come funziona:</strong> Il sistema genera un MAC casuale (Randomized) per ogni rete Wi-Fi a cui si connette.</li>
+<li><strong>Perché:</strong> Per evitare il tracciamento degli utenti (es. nei centri commerciali).</li>
+<li><strong>Impatto su OSINT (Open Source INTelligence):</strong> I tool che cercano l&rsquo;OUI per identificare il dispositivo falliscono o danno &ldquo;Unknown&rdquo;, perché il MAC casuale non appartiene a nessun vendor reale.</li>
+</ul>
+<p><img src="mac-address-ipconfig.png" alt="MAC address su Windows con comando ipconfig /all reale o spoofato"></p>
+<p>MAC address su Windows con comando ipconfig /all reale o spoofato</p>
+<h2 id="2-ethernet-frame-ieee-8023">2. Ethernet Frame (IEEE 802.3)</h2>
+<p>Il &ldquo;Frame&rdquo; è l&rsquo;unità dati (PDU = Protocol Data Unit) del livello 2. È il contenitore che viaggia sui cavi.
+<strong>Dimensione:</strong> Minimo <strong>64 byte</strong> - Massimo <strong>1518 byte</strong> (Standard).</p>
+<p><img src="ethernet-frame.png" alt="Preamble e SFD possono anche essere associati all’header del Layer 1"></p>
+<p>Preamble e SFD possono anche essere associati all’header del Layer 1</p>
+<h3 id="a-layer-1-preludio-fisico">A. Layer 1 (Preludio fisico)</h3>
+<p>Questi bit non contano nella grandezza del frame logico, servono a &ldquo;svegliare&rdquo; la scheda di rete.</p>
+<ol>
+<li><strong>Preamble (7 Byte):</strong> Sequenza alternata <code>10101010...</code>. Serve a sincronizzare i clock di ricezione (bit synchronization).</li>
+<li><strong>SFD (Start Frame Delimiter - 1 Byte):</strong> Sequenza <code>10101011</code>. L&rsquo;ultimo bit a <code>1</code> dice: &ldquo;Attenzione, da <em>adesso</em> inizia il frame vero e proprio&rdquo;.</li>
+</ol>
+<h3 id="b-header-intestazione-l2">B. Header (Intestazione L2)</h3>
+<ol>
+<li><strong>Destination MAC (6 Byte):</strong> Indirizzo di chi deve ricevere.</li>
+<li><strong>Source MAC (6 Byte):</strong> Indirizzo di chi invia.</li>
+<li><strong>Type / Length (2 Byte):</strong>
+<ul>
+<li>Se valore &lt; 1500: Indica la <strong>Lunghezza</strong> del frame.</li>
+<li>Se valore &gt; 1536 (Hex): Indica il <strong>Tipo di Protocollo</strong> incapsulato (EtherType).</li>
+<li><em>Codici comuni:</em>
+<ul>
+<li><code>0x0800</code> → IPv4</li>
+<li><code>0x0806</code> → ARP</li>
+<li><code>0x86DD</code> → IPv6</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="c-payload-il-carico-utile">C. Payload (Il carico utile)</h3>
+<ol>
+<li><strong>Data &amp; Padding (46 - 1500 Byte):</strong>
+<ul>
+<li>Qui dentro c&rsquo;è il Pacchetto IP (o ARP).</li>
+<li><strong>Padding (Riempimento):</strong> Esiste una regola storica (CSMA/CD) per cui un frame <strong>non può essere più piccolo di 64 byte</strong>.</li>
+<li><em>Calcolo:</em> 64 byte (Min) - 18 byte (Header+Trailer) = <strong>46 byte</strong>.</li>
+<li>Se i dati sono meno di 46 byte, si aggiungono zeri (Padding) per arrivare alla dimensione minima.</li>
+</ul>
+</li>
+</ol>
+<h3 id="d-trailer-coda">D. Trailer (Coda)</h3>
+<ol>
+<li><strong>FCS (Frame Check Sequence - 4 Byte):</strong>
+<ul>
+<li>Contiene un valore calcolato con algoritmo <strong>CRC (Cyclic Redundancy Check)</strong>.</li>
+<li>Il ricevente ricalcola il CRC: se corrisponde a questo campo, il frame è integro. Se diverso, il frame è corrotto e viene scartato.</li>
+</ul>
+</li>
+</ol>
+<p><img src="packet-tracer-frame.png" alt="In CISCO packet tracer posso vedere l’anatomia dell’ethernet frame sopra citato ed il contenuto"></p>
+<p>In CISCO packet tracer posso vedere l’anatomia dell’ethernet frame sopra citato ed il contenuto</p>
+<p>Per vedere come funziona la comunicazione nel layer 2 (usando MAC tables) con cisco packet tracer:</p>
+<p><a href="https://www.youtube.com/watch?v=aeLZJgIOW6o&amp;list=PLod5uVuFMqhaEu_Qn9MmUbT6AiASm9Mja&amp;index=12">Video: comunicazione Layer 2 e MAC address table</a></p>
+<h2 id="3-mtu--frammentazione">3. MTU &amp; Frammentazione</h2>
+<blockquote>
+<p><strong>Definizione:</strong> <strong>MTU (Maximum Transmission Unit)</strong>.
+È la dimensione massima del <em>Payload</em> che un frame Ethernet può trasportare.
+<strong>Standard:</strong> <strong>1500 Byte</strong>.</p>
+</blockquote>
+<p><strong>Cosa succede se i dati sono &gt; 1500 byte?</strong></p>
+<ol>
+<li><strong>Frammentazione IP:</strong> Il livello Network (L3) divide il pacchetto grosso in più pacchetti piccoli che entrano nell&rsquo;MTU.</li>
+<li><strong>Jumbo Frames:</strong> Alcune reti moderne supportano frame giganti (fino a <strong>9000 byte</strong>).
+<ul>
+<li><em>Pro:</em> Meno overhead (meno header da elaborare per la CPU).</li>
+<li><em>Contro:</em> Tutti i dispositivi sulla tratta (Switch, Router, NIC) devono essere configurati per supportarli, altrimenti i pacchetti vengono persi.</li>
+</ul>
+</li>
+</ol>
+
+            </div>
+        </article>
+    </main>
+</div>
+<footer class="footer">
+    <span class="footer_item"> </span>
+    &nbsp;
+
+    <div class="footer_social-icons">
+<a href="https://github.com/hash-andre" target="_blank" rel="noopener noreferrer me"
+    title="Github">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+</a>
+<a href="https://www.linkedin.com/in/andrearomano95/" target="_blank" rel="noopener noreferrer me"
+    title="Linkedin">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+</svg>
+</a>
+</div>
+    <small class="footer_copyright">
+        © 2026 Andrea Romano.
+        Generato dal tema <a href="https://github.com/hugo-sid/hugo-blog-awesome" target="_blank" rel="noopener">Hugo blog awesome</a>.
+    </small>
+</footer><a href="#" title="Torna all&#39;inizio" id="totop">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" stroke="currentColor" viewBox="0 96 960 960">
+    <path d="M283 704.739 234.261 656 480 410.261 725.739 656 677 704.739l-197-197-197 197Z"/>
+</svg>
+
+</a>
+
+
+    
+
+
+
+
+
+
+    
+    <script async src="http://localhost:1313/js/main.js" ></script>
+
+    
+
+</body>
+</html>

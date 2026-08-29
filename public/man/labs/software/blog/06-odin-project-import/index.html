@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="it-IT"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title itemprop="name">06 — Importing and reviewing The Odin Project notes | Andrea Romano</title>
+<meta property="og:title" content="06 — Importing and reviewing The Odin Project notes | Andrea Romano" />
+<meta name="twitter:title" content="06 — Importing and reviewing The Odin Project notes | Andrea Romano" />
+<meta itemprop="name" content="06 — Importing and reviewing The Odin Project notes | Andrea Romano" />
+<meta name="application-name" content="06 — Importing and reviewing The Odin Project notes | Andrea Romano" />
+<meta property="og:site_name" content="Andrea Romano" />
+
+<meta name="description" content="A content import where technical review mattered as much as Markdown cleanup">
+<meta itemprop="description" content="A content import where technical review mattered as much as Markdown cleanup" />
+<meta property="og:description" content="A content import where technical review mattered as much as Markdown cleanup" />
+<meta name="twitter:description" content="A content import where technical review mattered as much as Markdown cleanup" />
+
+<meta property="og:locale" content="it-IT" />
+<meta name="language" content="it-IT" />
+
+  <link rel="alternate" hreflang="it" href="http://localhost:1313/man/labs/software/blog/06-odin-project-import/" title="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.165.0">
+
+    
+    <meta property="og:url" content="http://localhost:1313/man/labs/software/blog/06-odin-project-import/">
+	<meta property="og:site_name" content="Andrea Romano">
+	<meta property="og:title" content="06 — Importing and reviewing The Odin Project notes">
+	<meta property="og:description" content="A content import where technical review mattered as much as Markdown cleanup">
+	<meta property="og:locale" content="it_IT">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="man">
+		<meta property="article:published_time" content="2026-08-29T23:40:00+02:00">
+		<meta property="article:modified_time" content="2026-08-29T23:40:00+02:00">
+
+
+    
+    
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="06 — Importing and reviewing The Odin Project notes">
+	<meta name="twitter:description" content="A content import where technical review mattered as much as Markdown cleanup">
+
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/man/labs/software/blog/06-odin-project-import/">
+    <link href="/style.min.4e4ded410ce988a23b75f82b99ddc7bf77a23209baed4f331439154fafee5cbe.css" rel="stylesheet">
+    <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="theme-color" content="#434648">
+    <meta name="color-scheme" content="light dark">
+
+    
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+
+    
+    
+      <link rel="icon" type="image/svg+xml" href="/icons/favicon.min.fd7c380e42464d09dcb5f2064b7fd498cfb828d195efa65aa8e7b813b98a9b60.svg">
+
+    
+</head>
+<body data-theme = "dark" class="notransition">
+
+<script src="/js/theme.js"></script>
+
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="http://localhost:1313/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+stroke-linejoin="round" class="feather feather-home">
+<title>Inizio</title>
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"></path><path stroke-linecap="round" stroke-linejoin="round" d="M0.5 12.5V1.5C0.5 0.947715 0.947715 0.5 1.5 0.5H12.5C13.0523 0.5 13.5 0.947715 13.5 1.5V12.5C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C0.947715 13.5 0.5 13.0523 0.5 12.5Z"></path></svg>
+            </span>
+        </label>
+
+        <div class="trigger">
+            <ul class="trigger-container">
+                
+                
+                <li>
+                    <a class="menu-link " href="/">
+                        Hello World
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link active" href="/man/">
+                        man
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/posts/">
+                        posts
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/whoami/">
+                        whoami
+                    </a>
+                    
+                </li>
+                
+                <li class="menu-separator">
+                    <span>|</span>
+                </li>
+                
+                
+            </ul>
+            <a id="mode" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-sunny" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>LIGHT</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-moon" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>DARK</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="wrapper post man-page">
+    <main class="page-content" aria-label="Content">
+        <nav class="man-path" aria-label="Percorso">
+    <a href="/" aria-label="Home">~</a><span>/</span>
+    
+        
+    
+        
+            <a href="/man/">man</a><span>/</span>
+        
+    
+        
+            <a href="/man/labs/">labs</a><span>/</span>
+        
+    
+        
+            <a href="/man/labs/software/">software</a><span>/</span>
+        
+    
+        
+            <a href="/man/labs/software/blog/">blog</a><span>/</span>
+        
+    
+    <span aria-current="page">06 — Importing and reviewing The Odin Project notes</span>
+</nav>
+
+        <article>
+            <header class="header man-header">
+                <h1 class="header-title">06 — Importing and reviewing The Odin Project notes</h1>
+                <p class="man-description">A content import where technical review mattered as much as Markdown cleanup</p>
+            </header>
+            
+    
+        
+            
+        
+    
+    <details class="toc" open>
+        <summary><b>Sommario</b></summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#scope">Scope</a></li>
+    <li><a href="#resource-import">Resource import</a></li>
+    <li><a href="#preserve-the-authors-learning-path">Preserve the author&rsquo;s learning path</a></li>
+    <li><a href="#html-review">HTML review</a></li>
+    <li><a href="#css-review">CSS review</a>
+      <ul>
+        <li><a href="#multi-class-selector">Multi-class selector</a></li>
+        <li><a href="#cascade">Cascade</a></li>
+        <li><a href="#margin-collapsing">Margin collapsing</a></li>
+        <li><a href="#flexbox">Flexbox</a></li>
+      </ul>
+    </li>
+    <li><a href="#javascript-review">JavaScript review</a>
+      <ul>
+        <li><a href="#executable-errors-repaired">Executable errors repaired</a></li>
+        <li><a href="#runtime-concepts-corrected">Runtime concepts corrected</a></li>
+        <li><a href="#npm-behavior-checked-against-current-documentation">npm behavior checked against current documentation</a></li>
+      </ul>
+    </li>
+    <li><a href="#markdown-and-accessibility-review">Markdown and accessibility review</a></li>
+    <li><a href="#verification-result">Verification result</a></li>
+  </ul>
+</nav>
+    </details>
+            <div class="page-content">
+                <h2 id="scope">Scope</h2>
+<p>The Odin Project import contained three double-wrapped Notion exports:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>1.zip -&gt; Basic HTML
+</span></span><span style="display:flex;"><span>2.zip -&gt; Basic CSS &amp; Flexbox
+</span></span><span style="display:flex;"><span>3.zip -&gt; Basic Javascript
+</span></span></code></pre></div><p>The existing <code>foundations/index.md</code> was only a placeholder that asked for future
+content. Keeping it beside the real articles would create a misleading empty
+entry, so it was replaced by three numbered leaf bundles:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>content/man/labs/software/odin-project/
+</span></span><span style="display:flex;"><span>├── _index.md
+</span></span><span style="display:flex;"><span>├── 00-basic-html/
+</span></span><span style="display:flex;"><span>├── 01-basic-css-flexbox/
+</span></span><span style="display:flex;"><span>└── 02-basic-javascript/
+</span></span></code></pre></div><h2 id="resource-import">Resource import</h2>
+<p>The archives contained 51 images in total:</p>
+<ul>
+<li>4 for HTML;</li>
+<li>38 for CSS and Flexbox;</li>
+<li>9 for JavaScript.</li>
+</ul>
+<p>Every image was visually inspected in a contact sheet before it was named. This
+avoided guessing from Notion&rsquo;s generic numbering. Examples include:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>image.png     -&gt; relative-and-absolute-paths.png
+</span></span><span style="display:flex;"><span>image 17.png  -&gt; align-items-values.png
+</span></span><span style="display:flex;"><span>image 3.png   -&gt; event-loop.png
+</span></span></code></pre></div><p>The final validation found 51 source resources and the same 51 resources in the
+published Odin bundles, with no missing or unused file.</p>
+<h2 id="preserve-the-authors-learning-path">Preserve the author&rsquo;s learning path</h2>
+<p>These notes were not rewritten as an impersonal reference manual. Their value
+comes from the order in which a concept was encountered:</p>
+<ol>
+<li>state the practical problem;</li>
+<li>build a mental model;</li>
+<li>show a small example;</li>
+<li>identify a failure or edge case;</li>
+<li>connect the detail to a larger mechanism.</li>
+</ol>
+<p>The English and Italian were corrected where grammar obscured meaning, but the
+explanations remain direct and incremental. The goal is not to hide the learning
+process. It is to make that process reliable enough to revisit later.</p>
+<h2 id="html-review">HTML review</h2>
+<p>The HTML article was expanded and corrected around:</p>
+<ul>
+<li>the role of <code>&lt;!doctype html&gt;</code>;</li>
+<li><code>lang</code>, character encoding, viewport metadata, and <code>&lt;title&gt;</code>;</li>
+<li>absolute and relative URL resolution;</li>
+<li><code>target=&quot;_blank&quot;</code> with <code>noopener</code> and <code>noreferrer</code>;</li>
+<li>useful <code>alt</code> text rather than filename repetition;</li>
+<li>unitless HTML <code>width</code> and <code>height</code> attributes;</li>
+<li>intrinsic dimensions and layout shift;</li>
+<li><code>srcset</code> and <code>sizes</code> instead of a universal “double pixels for Retina” rule.</li>
+</ul>
+<h2 id="css-review">CSS review</h2>
+<p>Several statements needed semantic correction rather than copy editing.</p>
+<h3 id="multi-class-selector">Multi-class selector</h3>
+<p>The raw selector contained a space:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-css" data-lang="css"><span style="display:flex;"><span>.<span style="color:#a6e22e">alert_text</span> .<span style="color:#a6e22e">severe_alert</span> { <span style="color:#960050;background-color:#1e0010">...</span> }
+</span></span></code></pre></div><p>That selects a descendant. The example HTML put both classes on one element, so
+the correct selector is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-css" data-lang="css"><span style="display:flex;"><span>.<span style="color:#a6e22e">alert_text</span>.<span style="color:#a6e22e">severe_alert</span> { <span style="color:#960050;background-color:#1e0010">...</span> }
+</span></span></code></pre></div><h3 id="cascade">Cascade</h3>
+<p>Inheritance was described as the third tie-breaker after specificity and source
+order. That is not the correct model. Origin, importance, and cascade layers are
+considered before specificity; inheritance supplies a value only when the
+element has no applicable declaration for an inherited property.</p>
+<h3 id="margin-collapsing">Margin collapsing</h3>
+<p>Two positive adjacent vertical margins do not add together. When they collapse,
+the result is normally the larger margin. The article now distinguishes this
+from Flexbox and Grid contexts, where that block-flow behavior does not apply in
+the same way.</p>
+<h3 id="flexbox">Flexbox</h3>
+<p>The review corrected several common beginner traps:</p>
+<ul>
+<li>flex properties do not “inherit” from the container;</li>
+<li>only direct children become flex items;</li>
+<li>items have more controls than the <code>flex</code> shorthand;</li>
+<li><code>flex-direction</code> defines the main axis;</li>
+<li><code>justify-content</code> uses the main axis and <code>align-items</code> the cross axis;</li>
+<li><code>align-content</code> distributes multiple lines, not individual items;</li>
+<li><code>flex: 1</code> is normally expanded to <code>1 1 0%</code>;</li>
+<li><code>order</code> changes visual order and can diverge from reading or focus order.</li>
+</ul>
+<h2 id="javascript-review">JavaScript review</h2>
+<p>The JavaScript article contained the largest number of executable examples, so
+syntax review and conceptual review were both necessary.</p>
+<h3 id="executable-errors-repaired">Executable errors repaired</h3>
+<ul>
+<li><code>PI</code> was declared but <code>pi</code> was read.</li>
+<li>bold Markdown markers had been exported inside code.</li>
+<li>two <code>const cats</code> and two <code>const sum</code> declarations shared one scope.</li>
+<li>the event example used <code>event.input.value</code> instead of
+<code>event.target.value</code>.</li>
+<li><code>document.querySelectorAll</code> contained Markdown emphasis inside the method
+name.</li>
+<li>HTML and JavaScript were mixed in single language fences.</li>
+<li>FizzBuzz evaluated only the input number instead of printing <code>1</code> through the
+requested limit.</li>
+</ul>
+<h3 id="runtime-concepts-corrected">Runtime concepts corrected</h3>
+<ul>
+<li><code>±(2^53 - 1)</code> is the safe integer range, not the complete range of <code>number</code>.</li>
+<li>JavaScript passes every argument by value; an object&rsquo;s copied value is a
+reference, which explains visible mutation without inventing pass-by-reference
+semantics.</li>
+<li>a <code>NodeList</code> is not an array, although modern NodeLists support methods such
+as <code>forEach()</code>.</li>
+<li><code>onclick</code> targets the selected element; its limitation is a single property
+handler, not that it automatically selects every button.</li>
+<li>promise reactions use the microtask queue, while timers and UI events use task
+queues; they are not all one callback queue.</li>
+<li><code>fetch()</code> does not reject merely because the server returns <code>404</code> or <code>500</code>, so
+examples check <code>response.ok</code>.</li>
+</ul>
+<h3 id="npm-behavior-checked-against-current-documentation">npm behavior checked against current documentation</h3>
+<p>The original comment said:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm config set min-release-age<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+</span></span></code></pre></div><p>would block releases younger than three years. Current npm documentation defines
+the value in <strong>days</strong>, so it means three days. The note now also explains that a
+release-age window can delay an urgent security fix and does not replace a
+lockfile, audit, or dependency review.</p>
+<p>The description of <code>npx</code> was updated too: current <code>npx</code> is an interface to
+<code>npm exec</code>; it can use a local package or, after a prompt, place a requested
+package in the npm cache for execution.</p>
+<h2 id="markdown-and-accessibility-review">Markdown and accessibility review</h2>
+<p>Across all three articles:</p>
+<ul>
+<li>the front matter title owns <code>&lt;h1&gt;</code> and body headings start at <code>##</code>;</li>
+<li>raw URLs have descriptive labels;</li>
+<li><code>&lt;aside&gt;</code> remnants were removed;</li>
+<li>code fence languages match their content;</li>
+<li>image alt text explains the figure;</li>
+<li>duplicate captions were removed;</li>
+<li>Notion UUIDs and <code>%20</code> paths were eliminated;</li>
+<li>every article received a date, weight, description, and
+<code>show_in_posts: true</code>.</li>
+</ul>
+<h2 id="verification-result">Verification result</h2>
+<p>After the import, the clean Hugo build reported:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Pages:          50
+</span></span><span style="display:flex;"><span>Non-page files: 104
+</span></span></code></pre></div><p>The three Odin articles appeared in their directory, in <code>/posts/</code>, and in RSS.
+The source/output checks reported no missing image, unused imported resource,
+raw URL, Notion path, unbalanced code fence, or diff whitespace error.</p>
+<p>References used for version-sensitive corrections:</p>
+<ul>
+<li><a href="https://docs.npmjs.com/using-npm/config/">npm configuration: <code>min-release-age</code></a></li>
+<li><a href="https://docs.npmjs.com/cli/npm-exec/">npm exec and npx</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER">MDN: <code>Number.MAX_SAFE_INTEGER</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch">MDN: Fetch</a></li>
+</ul>
+
+            </div>
+        </article>
+    </main>
+</div>
+<footer class="footer">
+    <span class="footer_item"> </span>
+    &nbsp;
+
+    <div class="footer_social-icons">
+<a href="https://github.com/hash-andre" target="_blank" rel="noopener noreferrer me"
+    title="Github">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+</a>
+<a href="https://www.linkedin.com/in/andrearomano95/" target="_blank" rel="noopener noreferrer me"
+    title="Linkedin">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+</svg>
+</a>
+</div>
+    <small class="footer_copyright">
+        © 2026 Andrea Romano.
+        Generato dal tema <a href="https://github.com/hugo-sid/hugo-blog-awesome" target="_blank" rel="noopener">Hugo blog awesome</a>.
+    </small>
+</footer><a href="#" title="Torna all&#39;inizio" id="totop">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" stroke="currentColor" viewBox="0 96 960 960">
+    <path d="M283 704.739 234.261 656 480 410.261 725.739 656 677 704.739l-197-197-197 197Z"/>
+</svg>
+
+</a>
+
+
+    
+
+
+
+
+
+
+    
+    <script async src="http://localhost:1313/js/main.js" ></script>
+
+    
+
+</body>
+</html>

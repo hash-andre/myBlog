@@ -1,0 +1,34 @@
+{{ define "main" }}
+{{ $entries := .Pages }}
+{{ if .Parent.IsHome }}
+    {{ $entries = .Sections }}
+{{ end }}
+<div class="wrapper man-page">
+    <main class="page-content" aria-label="Content">
+        {{ partial "man/breadcrumb.html" . }}
+
+        <header class="header man-header">
+            <h1 class="header-title">{{ .Title }}/</h1>
+            {{ with .Description }}<p class="man-description">{{ . }}</p>{{ end }}
+        </header>
+
+        {{ with .Content }}
+        <div class="man-intro">{{ . }}</div>
+        {{ end }}
+
+        <nav class="man-browser" aria-label="Contenuto di {{ .Title }}">
+            <div class="man-browser-heading" aria-hidden="true">
+                <span>name</span>
+                <span>description</span>
+            </div>
+            {{ if $entries }}
+            <ul class="man-list">
+                {{ partial "man/entries.html" (dict "pages" $entries) }}
+            </ul>
+            {{ else }}
+            <p class="man-empty">Questa directory è vuota.</p>
+            {{ end }}
+        </nav>
+    </main>
+</div>
+{{ end }}

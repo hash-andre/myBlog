@@ -1,0 +1,38 @@
+{{- $pages := partial "timeline-pages.html" . -}}
+{{- $pages = where $pages "Params.exclude_from_rss" "!=" true -}}
+{{- $limit := .Site.Config.Services.RSS.Limit -}}
+{{- if ge $limit 1 -}}
+    {{- $pages = first $limit $pages -}}
+{{- end -}}
+{{- $rssFeedDescription := .Site.Params.rssFeedDescription | default "summary" -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ .Title }} on {{ .Site.Title }}</title>
+    <link>{{ .Permalink }}</link>
+    <description>{{ .Description }}</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>{{ site.Language.Locale }}</language>
+    {{- with $pages }}
+    <lastBuildDate>{{ (index . 0).Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+    {{- end }}
+    {{- with .OutputFormats.Get "RSS" }}
+    {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+    {{- end }}
+    {{ range $pages }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <guid>{{ .Permalink }}</guid>
+      {{ if eq $rssFeedDescription "summary" }}
+      <description>{{ .Summary | html }}</description>
+      {{ else if eq $rssFeedDescription "full" }}
+      <description>{{ .Content | html }}</description>
+      {{ else }}
+      {{ errorf "Invalid rssFeedDescription value %q" $rssFeedDescription }}
+      {{ end }}
+    </item>
+    {{ end }}
+  </channel>
+</rss>

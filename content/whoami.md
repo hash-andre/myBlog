@@ -1,5 +1,4 @@
 +++
-draft = true
 title = 'Whoami'
 description = "Chi sono, cosa sto studiando e cosa sto costruendo"
 +++

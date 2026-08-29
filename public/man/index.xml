@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Manual on Andrea Romano</title>
+    <title>man on Andrea Romano</title>
     <link>http://localhost:1313/man/</link>
-    <description>Recent content in Manual on Andrea Romano</description>
+    <description>Recent content in man on Andrea Romano</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>it-IT</language>
-    <lastBuildDate>Mon, 02 Jan 2006 00:00:00 +0100</lastBuildDate><atom:link href="http://localhost:1313/man/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 29 Aug 2026 23:50:00 +0200</lastBuildDate><atom:link href="http://localhost:1313/man/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

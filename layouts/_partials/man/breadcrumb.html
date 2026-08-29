@@ -1,0 +1,9 @@
+<nav class="man-path" aria-label="Percorso">
+    <a href="{{ site.Home.RelPermalink }}" aria-label="Home">~</a><span>/</span>
+    {{ range .Ancestors.Reverse }}
+        {{ if and .IsSection (ne .Kind "home") }}
+            <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a><span>/</span>
+        {{ end }}
+    {{ end }}
+    <span aria-current="page">{{ .LinkTitle }}{{ if .IsSection }}/{{ end }}</span>
+</nav>

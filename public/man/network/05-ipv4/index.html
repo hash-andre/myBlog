@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="it-IT"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title itemprop="name">05 — IPv4: Internet Protocol (livello 3) | Andrea Romano</title>
+<meta property="og:title" content="05 — IPv4: Internet Protocol (livello 3) | Andrea Romano" />
+<meta name="twitter:title" content="05 — IPv4: Internet Protocol (livello 3) | Andrea Romano" />
+<meta itemprop="name" content="05 — IPv4: Internet Protocol (livello 3) | Andrea Romano" />
+<meta name="application-name" content="05 — IPv4: Internet Protocol (livello 3) | Andrea Romano" />
+<meta property="og:site_name" content="Andrea Romano" />
+
+<meta name="description" content="Header IPv4, frammentazione, CIDR, subnetting e NAT/PAT">
+<meta itemprop="description" content="Header IPv4, frammentazione, CIDR, subnetting e NAT/PAT" />
+<meta property="og:description" content="Header IPv4, frammentazione, CIDR, subnetting e NAT/PAT" />
+<meta name="twitter:description" content="Header IPv4, frammentazione, CIDR, subnetting e NAT/PAT" />
+
+<meta property="og:locale" content="it-IT" />
+<meta name="language" content="it-IT" />
+
+  <link rel="alternate" hreflang="it" href="http://localhost:1313/man/network/05-ipv4/" title="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.165.0">
+
+    
+    <meta property="og:url" content="http://localhost:1313/man/network/05-ipv4/">
+	<meta property="og:site_name" content="Andrea Romano">
+	<meta property="og:title" content="05 — IPv4: Internet Protocol (livello 3)">
+	<meta property="og:description" content="Header IPv4, frammentazione, CIDR, subnetting e NAT/PAT">
+	<meta property="og:locale" content="it_IT">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="man">
+		<meta property="article:published_time" content="2026-08-29T21:01:00+02:00">
+		<meta property="article:modified_time" content="2026-08-29T21:01:00+02:00">
+
+
+    
+    
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="05 — IPv4: Internet Protocol (livello 3)">
+	<meta name="twitter:description" content="Header IPv4, frammentazione, CIDR, subnetting e NAT/PAT">
+
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/man/network/05-ipv4/">
+    <link href="/style.min.4e4ded410ce988a23b75f82b99ddc7bf77a23209baed4f331439154fafee5cbe.css" rel="stylesheet">
+    <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="theme-color" content="#434648">
+    <meta name="color-scheme" content="light dark">
+
+    
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" crossorigin="anonymous" />
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA=="
+    crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });"></script>
+
+    
+      <link rel="icon" type="image/svg+xml" href="/icons/favicon.min.fd7c380e42464d09dcb5f2064b7fd498cfb828d195efa65aa8e7b813b98a9b60.svg">
+
+    
+</head>
+<body data-theme = "dark" class="notransition">
+
+<script src="/js/theme.js"></script>
+
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="http://localhost:1313/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+stroke-linejoin="round" class="feather feather-home">
+<title>Inizio</title>
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"></path><path stroke-linecap="round" stroke-linejoin="round" d="M0.5 12.5V1.5C0.5 0.947715 0.947715 0.5 1.5 0.5H12.5C13.0523 0.5 13.5 0.947715 13.5 1.5V12.5C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C0.947715 13.5 0.5 13.0523 0.5 12.5Z"></path></svg>
+            </span>
+        </label>
+
+        <div class="trigger">
+            <ul class="trigger-container">
+                
+                
+                <li>
+                    <a class="menu-link " href="/">
+                        Hello World
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link active" href="/man/">
+                        man
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/posts/">
+                        posts
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/whoami/">
+                        whoami
+                    </a>
+                    
+                </li>
+                
+                <li class="menu-separator">
+                    <span>|</span>
+                </li>
+                
+                
+            </ul>
+            <a id="mode" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-sunny" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>LIGHT</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-moon" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>DARK</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="wrapper post man-page">
+    <main class="page-content" aria-label="Content">
+        <nav class="man-path" aria-label="Percorso">
+    <a href="/" aria-label="Home">~</a><span>/</span>
+    
+        
+    
+        
+            <a href="/man/">man</a><span>/</span>
+        
+    
+        
+            <a href="/man/network/">network</a><span>/</span>
+        
+    
+    <span aria-current="page">05 — IPv4: Internet Protocol (livello 3)</span>
+</nav>
+
+        <article>
+            <header class="header man-header">
+                <h1 class="header-title">05 — IPv4: Internet Protocol (livello 3)</h1>
+                <p class="man-description">Header IPv4, frammentazione, CIDR, subnetting e NAT/PAT</p>
+            </header>
+            
+    
+        
+            
+        
+    
+    <details class="toc" open>
+        <summary><b>Sommario</b></summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-anatomia-del-pacchetto-ipv4">1. Anatomia del Pacchetto IPv4</a>
+      <ul>
+        <li><a href="#campi-dellheader">Campi dell&rsquo;Header</a></li>
+        <li><a href="#protocol-numbers">Protocol Numbers:</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-frammentazione-ipv4">2. Frammentazione IPv4</a>
+      <ul>
+        <li><a href="#a-identifier-16-bit">a. Identifier (16 bit)</a></li>
+        <li><a href="#b-flags-3-bit">b. Flags (3 bit)</a></li>
+        <li><a href="#c-fragment-offset-13-bit">c. Fragment Offset (13 bit)</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-indirizzamento-e-cidr">3. Indirizzamento e CIDR</a>
+      <ul>
+        <li><a href="#struttura-ipv4">Struttura IPv4</a></li>
+        <li><a href="#cidr-classless-inter-domain-routing-e-subnet-mask">CIDR (Classless Inter-Domain Routing) e Subnet Mask</a></li>
+        <li><a href="#indirizzi-riservati-non-assegnabili-agli-host">Indirizzi Riservati (Non assegnabili agli host)</a></li>
+        <li><a href="#default-gateway">Default gateway</a></li>
+        <li><a href="#esempio-di-calcolo">Esempio di calcolo</a></li>
+        <li><a href="#indirizzi-pubblici-vs-privati-e-nat-network-address-translation">Indirizzi Pubblici vs Privati e NAT (Network Address Translation)</a></li>
+        <li><a href="#lesempio-pratico-navigazione-web">L&rsquo;Esempio Pratico (Navigazione Web)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </details>
+            <div class="page-content">
+                <blockquote>
+<p><strong>Nota</strong></p>
+<p>Siamo nel <strong>Network Layer (L3)</strong>.</p>
+<p>Mentre il MAC Address (L2) serve per spostarsi all&rsquo;interno di una LAN (Switch), l&rsquo;<strong>Indirizzo IP (L3)</strong> serve per identificare univocamente un host su scala globale e permettere il <strong>Routing</strong> tra reti diverse (tramite Router).</p>
+</blockquote>
+<h2 id="1-anatomia-del-pacchetto-ipv4">1. Anatomia del Pacchetto IPv4</h2>
+<p><img src="ipv4-packet.png" alt="Possiede Header e payload 20-65535 byte"></p>
+<p>Possiede Header e payload 20-65535 byte</p>
+<ul>
+<li>Il pacchetto IP è composto da <strong>Header</strong> (intestazione) + <strong>Payload</strong> (dati).</li>
+<li>Dimensione Totale: Min 20 byte (solo header) - Max 65.535 byte.</li>
+</ul>
+<h3 id="campi-dellheader">Campi dell&rsquo;Header</h3>
+<table>
+	<thead>
+			<tr>
+					<th><strong>Campo</strong></th>
+					<th><strong>Bit</strong></th>
+					<th><strong>Descrizione</strong></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Version</strong></td>
+					<td>4</td>
+					<td>Indica la versione IP (solitamente 4, ovvero <code>0100</code>).</td>
+			</tr>
+			<tr>
+					<td><strong>IHL (Header Length)</strong></td>
+					<td>4</td>
+					<td>Lunghezza dell&rsquo;header. Conta le &ldquo;parole&rdquo; da 32 bit. Minimo 5 (5*4=20 byte).</td>
+			</tr>
+			<tr>
+					<td><strong>ToS (Type of Service)</strong></td>
+					<td>8</td>
+					<td>Indica la priorità del pacchetto (es. QoS per VoIP o Streaming). Oggi chiamato DSCP.</td>
+			</tr>
+			<tr>
+					<td><strong>Total Length</strong></td>
+					<td>16</td>
+					<td>Dimensione totale del pacchetto (Header + Payload).</td>
+			</tr>
+			<tr>
+					<td><strong>Identification</strong></td>
+					<td>16</td>
+					<td>ID univoco per riassemblare i frammenti (vedi Frammentazione).</td>
+			</tr>
+			<tr>
+					<td><strong>Flags</strong></td>
+					<td>3</td>
+					<td>Bit di controllo per la frammentazione (DF, MF).</td>
+			</tr>
+			<tr>
+					<td><strong>Fragment Offset</strong></td>
+					<td>13</td>
+					<td>Posizione del frammento corrente rispetto al pacchetto originale.</td>
+			</tr>
+			<tr>
+					<td><strong>TTL (Time To Live)</strong></td>
+					<td>8</td>
+					<td>&ldquo;Vita&rdquo; del pacchetto. Ad ogni salto (hop) tra router viene decrementato di 1. Se arriva a 0, il pacchetto viene scartato e il router invia un ICMP &ldquo;Time Exceeded&rdquo;. Serve a evitare loop infiniti.</td>
+			</tr>
+			<tr>
+					<td><strong>Protocol</strong></td>
+					<td>8</td>
+					<td>Indica quale protocollo di Livello 4 è incapsulato nel payload.</td>
+			</tr>
+			<tr>
+					<td><strong>Header Checksum</strong></td>
+					<td>16</td>
+					<td>Controllo integrità <strong>solo dell&rsquo;header IP</strong>. Non controlla i dati (se ne occupa TCP/UDP).</td>
+			</tr>
+			<tr>
+					<td><strong>Source / Dest IP</strong></td>
+					<td>32</td>
+					<td>Indirizzo IP del mittente e del destinatario.</td>
+			</tr>
+			<tr>
+					<td><strong>Options</strong></td>
+					<td>Var</td>
+					<td>(Opzionale) Informazioni aggiuntive di routing/sicurezza (raramente usato oggi).</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="protocol-numbers">Protocol Numbers:</h3>
+<p><a href="https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml">Registro IANA dei numeri di protocollo</a></p>
+<p>Mi permette di vedere che protocollo mi ha generato i dati che vengono incapsulati dall’header:</p>
+<p>Per esempio:</p>
+<ul>
+<li><code>1</code> = <strong>ICMP</strong> (Ping, Errori)</li>
+<li><code>6</code> = <strong>TCP</strong> (Transmission Control Protocol)</li>
+<li><code>17</code> = <strong>UDP</strong> (User Datagram Protocol)</li>
+</ul>
+<h2 id="2-frammentazione-ipv4">2. Frammentazione IPv4</h2>
+<p>Quando un pacchetto supera l&rsquo;<strong>MTU</strong> (Maximum Transmission Unit, solitamente <strong>1500 byte</strong> su Ethernet), il Router deve spezzarlo in frammenti più piccoli (A meno di jumbo)</p>
+<p>Ogni frammento avrà il <strong>suo header IP</strong> (quasi identico all&rsquo;originale) con modifiche a questi 3 campi:</p>
+<h3 id="a-identifier-16-bit">a. Identifier (16 bit)</h3>
+<p>Un numero casuale (ID) che viene copiato uguale in tutti i frammenti dello stesso pacchetto originale. Serve al destinatario per capire quali pezzi vanno insieme.</p>
+<h3 id="b-flags-3-bit">b. Flags (3 bit)</h3>
+<ol>
+<li><strong>Bit 0:</strong> Reserved (sempre 0).</li>
+<li><strong>Bit 1 (DF - Don&rsquo;t Fragment):</strong> Se settato a 1, dice &ldquo;Vietato frammentare&rdquo;. Se il pacchetto è troppo grande e DF=1, il router lo scarta e manda errore ICMP.</li>
+<li><strong>Bit 2 (MF - More Fragments):</strong>
+<ul>
+<li><code>1</code> = &ldquo;Ce ne sono altri dopo di me&rdquo;.</li>
+<li><code>0</code> = &ldquo;Io sono l&rsquo;ultimo pezzo&rdquo;.</li>
+</ul>
+</li>
+</ol>
+<h3 id="c-fragment-offset-13-bit">c. Fragment Offset (13 bit)</h3>
+<p>Indica <strong>dove</strong> posizionare il payload di questo frammento nel buffer di ricostruzione.</p>
+<p><strong>Regola dell'8:</strong> L&rsquo;unità di misura dell&rsquo;offset sono blocchi da <strong>8 byte</strong>.</p>
+<ul>
+<li><em>Esempio:</em> Se il primo frammento porta 1480 byte di dati.</li>
+<li>Il secondo frammento avrà Offset = 1480 / 8 = <strong>185</strong>.</li>
+<li>Chi riceve moltiplica per 8 per trovare la posizione in byte.</li>
+</ul>
+<p><img src="fragmentation-01.png" alt="Primo esempio di frammentazione IPv4"></p>
+<p><img src="fragmentation-02.png" alt="Secondo esempio di frammentazione IPv4"></p>
+<p><img src="wireshark-fragments.png" alt="Sniffing del pacchetto frammentato su Wireshark"></p>
+<p>Sniffing del pacchetto frammentato su Wireshark</p>
+<p><strong>Approfondimento Wireshark &amp; Frammentazione:</strong></p>
+<p><a href="https://www.youtube.com/watch?v=CU3Qm5-i7ho&amp;list=PLod5uVuFMqhaEu_Qn9MmUbT6AiASm9Mja&amp;index=19">Youtube Link - IPv4 Fragmentation Analysis</a></p>
+<h2 id="3-indirizzamento-e-cidr">3. Indirizzamento e CIDR</h2>
+<h3 id="struttura-ipv4">Struttura IPv4</h3>
+<ul>
+<li><strong>Dimensione:</strong> 32 bit (4 Byte).</li>
+<li><strong>Spazio indirizzi:</strong> $2^{32} \approx 4.3$ miliardi di indirizzi. (Esauriti → Soluzioni: NAT/PAT e IPv6).</li>
+</ul>
+<p><strong>Rappresentazioni:</strong></p>
+<ul>
+<li><strong>Decimale puntata:</strong> <code>192.168.1.1</code> (Standard umano).</li>
+<li><strong>Binaria:</strong> <code>11000000.10101000.00000001.00000001</code>.
+<ul>
+<li><code>x.x.x.x</code> ogni x si chiama ottetto binario</li>
+</ul>
+</li>
+<li><strong>Esadecimale:</strong> <code>0xC0.A8.01.01</code> (Spesso usata nei log di sistema o errori).</li>
+</ul>
+<h3 id="cidr-classless-inter-domain-routing-e-subnet-mask">CIDR (Classless Inter-Domain Routing) e Subnet Mask</h3>
+<p><img src="cidr-16.png" alt="esempio con CIDR /16"></p>
+<p>esempio con CIDR /16</p>
+<blockquote>
+<p><strong>Nota</strong></p>
+<p><strong>Concetto Fondamentale:</strong></p>
+<p><strong>La Subnet Mask è il CIDR &ldquo;sotto mentite spoglie&rdquo;.</strong></p>
+<p>Dire <code>**/24**</code> oppure dire <strong><code>255.255.255.0</code></strong> è esattamente la stessa cosa.</p>
+<ul>
+<li><strong>CIDR (<code>/n</code>):</strong> Dice quanti bit sono impostati a <strong>1</strong> (ON) partendo da sinistra.</li>
+<li><strong>Subnet Mask:</strong> È la traduzione in decimale di quei bit.</li>
+<li><strong>Wildcard</strong>: complementare della subnet Mask (per router CISCO)
+<ul>
+<li><strong><code>255.255.255.0</code> -&gt; <code>0.0.0.255</code></strong></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>È il metodo standard per dividere l&rsquo;indirizzo IP in due parti: <strong>Rete</strong> (Network) e <strong>Host</strong>.</p>
+<p>Si indica con la notazione <strong>slash</strong> <code>/n</code>.</p>
+<p><strong>Formula:</strong> <code>Indirizzo IP / CIDR (in bit)</code></p>
+<p><strong>Esempio:</strong> <code>192.168.13.2 /24</code></p>
+<ul>
+<li><strong>/24</strong> significa che i primi <strong>24 bit</strong> sono fissi (Network Prefix).</li>
+<li>I restanti <strong>8 bit</strong> $(32 - 24 = 8)$ sono per gli Host (Suffix).</li>
+</ul>
+<table>
+	<thead>
+			<tr>
+					<th><strong>Parte</strong></th>
+					<th><strong>Valore</strong></th>
+					<th><strong>Descrizione</strong></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Network (Prefix)</strong></td>
+					<td><code>192.168.13</code></td>
+					<td>Identifica la sottorete. Tutti gli host qui hanno questo inizio uguale.</td>
+			</tr>
+			<tr>
+					<td><strong>Host (Suffix)</strong></td>
+					<td><code>.2</code></td>
+					<td>Identifica il dispositivo specifico.</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="indirizzi-riservati-non-assegnabili-agli-host">Indirizzi Riservati (Non assegnabili agli host)</h3>
+<p>In ogni subnet <code>/n</code>, due indirizzi non si possono usare per i PC:</p>
+<ol>
+<li><strong>Network Address (Tutti i bit host a 0):</strong> Identifica la rete stessa (es. <code>192.168.13.0</code>).</li>
+<li><strong>Broadcast Address (Tutti i bit host a 1):</strong> Indirizzo per parlare con <em>tutti</em> nella subnet (es. <code>192.168.13.255</code>).</li>
+</ol>
+<h3 id="default-gateway">Default gateway</h3>
+<p>Il primo indirizzo IP utilizzabile, viene dato al router di riferimento (default gateway)</p>
+<ul>
+<li>Se il pacchetto deve attraversare il layer 3 (Network), allora l’host lo manda all’IP default gateway (quello del router) che poi farà il forward nella rete</li>
+<li>Senza default gateway → pc non sa dove mandare i pacchetti</li>
+</ul>
+<h3 id="esempio-di-calcolo">Esempio di calcolo</h3>
+<p>IPv4 + CIDR iniziale: <code>192.168.13.122/27</code></p>
+<ul>
+<li>(27 bit a sinistra fissi). Rimangono 5 bit variabili. 2^5 = 32 indirizzi codificabili</li>
+<li>Tolgo Network address e Broadcast address → 30 indirizzi codificabili</li>
+</ul>
+<p>Converto in binario: <code>192.168.13.122</code> → <code>11000000.10101000.00001101.01111010</code></p>
+<p>Primi <code>/27</code> bit fissi (da sinistra) → <code>11000000.10101000.00001101.011.....</code></p>
+<ul>
+<li>5 bit a destra partono da <code>00000</code> → Network address <code>192.168.13.96</code></li>
+<li>5 bit a destra finiscono a <code>11111</code> → Broadcast address <code>192.168.13.127</code></li>
+<li>Default Gateway  <code>192.168.13.97</code> (Il primo disponibile)</li>
+<li>Dunque, indirizzi IP utilizzabili → [<code>192.168.13.97</code> , <code>192.168.13.126</code> ]</li>
+</ul>
+<p>Netmask (<code>/27</code> bit fissi a 1)</p>
+<p><code>192.168.13.122/27</code> → <code>11111111.11111111.11111111.11100000</code> → <code>255.255.255.224</code></p>
+<p>Wildcard (complementare Netmask)</p>
+<p><code>11111111.11111111.11111111.11100000</code> → <code>00000000.00000000.00000000.00011111</code> → <code>0.0.0.31</code></p>
+<p>Calcolo:</p>
+<p><a href="https://www.youtube.com/watch?v=GleVTAg51xM&amp;list=PLod5uVuFMqhaEu_Qn9MmUbT6AiASm9Mja&amp;index=21&amp;t=631s">Video: calcolo di subnet, netmask e wildcard</a></p>
+<h3 id="indirizzi-pubblici-vs-privati-e-nat-network-address-translation">Indirizzi Pubblici vs Privati e NAT (Network Address Translation)</h3>
+<p>Per risparmiare indirizzi IP (che sono finiti), Internet usa un sistema a due livelli.</p>
+<p><strong>1. Indirizzi Privati (LAN)</strong></p>
+<ul>
+<li>Sono gratuiti e liberi. Chiunque può usarli a casa o in ufficio.</li>
+<li><strong>NON sono instradabili su Internet:</strong> Se un router pubblico vede un pacchetto con questi IP, lo scarta.</li>
+<li>Servono solo per comunicare <strong>dentro</strong> la rete locale o arrivare fino al Gateway (Router).</li>
+</ul>
+<table>
+	<thead>
+			<tr>
+					<th><strong>Tipo</strong></th>
+					<th><strong>Range</strong></th>
+					<th><strong>Utilizzo tipico</strong></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Privato (10/8)</strong></td>
+					<td><code>10.0.0.0</code> - <code>10.255.255.255</code></td>
+					<td>Grandi aziende / datacenter</td>
+			</tr>
+			<tr>
+					<td><strong>Privato (172.16/12)</strong></td>
+					<td><code>172.16.0.0</code> - <code>172.31.255.255</code></td>
+					<td>Università / Docker / VPN</td>
+			</tr>
+			<tr>
+					<td><strong>Privato (192.168/16)</strong></td>
+					<td><code>192.168.0.0</code> - <code>192.168.255.255</code></td>
+					<td>Reti domestiche</td>
+			</tr>
+			<tr>
+					<td><strong>Link-local</strong></td>
+					<td><code>169.254.0.0</code> - <code>169.254.255.255</code></td>
+					<td>APIPA quando il DHCP non è disponibile</td>
+			</tr>
+			<tr>
+					<td><strong>This network</strong></td>
+					<td><code>0.0.0.0</code> - <code>0.255.255.255</code></td>
+					<td>Indirizzi speciali e route predefinita</td>
+			</tr>
+			<tr>
+					<td><strong>Loopback</strong></td>
+					<td><code>127.0.0.0</code> - <code>127.255.255.255</code></td>
+					<td>Test locali sull&rsquo;host</td>
+			</tr>
+			<tr>
+					<td><strong>Multicast</strong></td>
+					<td><code>224.0.0.0</code> - <code>239.255.255.255</code></td>
+					<td>Comunicazioni multicast</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>Indirizzi link-local:</strong></p>
+<ul>
+<li>Sono utilizzati da APIPA (Automatic Private IP Addressing) quando l&rsquo;host non
+riesce a contattare un server DHCP.</li>
+</ul>
+<p><strong>Indirizzi “this network”:</strong></p>
+<ul>
+<li>ACL (Network Access Control List)</li>
+<li>BGP Flow spec (Border Gateway Protocol) → regole di traffico a livello router
+<ul>
+<li>ES. <code>0.0.0.0 /0</code> blocca qualunque indirizzo IP</li>
+</ul>
+</li>
+<li>nel DHCP discovery: <code>0.0.0.0</code> indica IP source sconosciuto o che non conosco ancora</li>
+</ul>
+<p><strong>Loopback:</strong></p>
+<p>Usati per test locali senza scomodare server esterni</p>
+<ul>
+<li><code>127.0.0.1</code> → Localhost
+<ul>
+<li>Per gestire una richiesta server, serve un gestore web server</li>
+<li>Es. <code>server apache2 start</code> → su macchina locale</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. Indirizzi Pubblici (WAN)</strong></p>
+<p><strong>IANA  (Internet Assigned Numbers Authority) → Assegna IP</strong></p>
+<ul>
+<li>Sono univoci in tutto il mondo (come un numero di telefono).</li>
+<li>Vengono assegnati (e affittati) dal Provider Internet (ISP).</li>
+<li>Sono gli unici visibili su Internet.</li>
+</ul>
+<p><strong>3. Il ruolo del NAT (Network Address Translation)</strong></p>
+<p>Il meccanismo che permette a un IP privato di navigare:</p>
+<ul>
+<li>Il Router sostituisce l&rsquo;IP Privato del mittente con il proprio <strong>IP Pubblico</strong> prima di uscire su Internet.</li>
+<li>Tiene traccia della conversazione in una tabella (NAT Table) per sapere a quale dispositivo della LAN restituire la risposta.</li>
+</ul>
+<h4 id="natpat-port-address-translation--meccanismo-più-efficiente">NAT/PAT (Port Address Translation) -Meccanismo più efficiente</h4>
+<p><img src="nat-vs-pat.png" alt="La differenza con il NAT/PORT è che si utilizzano gli stessi IP con porte  diverse"></p>
+<p>La differenza con il NAT/PORT è che si utilizzano gli stessi IP con porte  diverse</p>
+<blockquote>
+<p><strong>Nota</strong></p>
+<p><strong>A cosa serve?</strong>
+Mentre il NAT base associa 1 IP privato a 1 IP pubblico, il <strong>PAT (o NAT Overload)</strong> permette a <em>migliaia</em> di dispositivi interni di navigare usando <strong>un solo IP Pubblico</strong>.
+Come fa? Usa le <strong>Porte (Livello 4)</strong> per distinguere le varie conversazioni.</p>
+</blockquote>
+<h3 id="lesempio-pratico-navigazione-web">L&rsquo;Esempio Pratico (Navigazione Web)</h3>
+<p>Immaginiamo che il tuo PC voglia visualizzare una pagina web.</p>
+<ul>
+<li><strong>IP Router (Pubblico):</strong> <code>82.10.20.30</code></li>
+</ul>
+<h4 id="1-request-dal-pc-al-router">1. REQUEST (Dal PC al Router)</h4>
+<p>Il PC genera il pacchetto originale nella LAN.</p>
+<ul>
+<li><strong>IP SRC (Sorgente):</strong> <code>10.0.0.4</code> (IP Privato del tuo PC).</li>
+<li><strong>PORT SRC:</strong> <code>13334</code> (Porta effimera/randomica <strong>scelta dal Sistema Operativo</strong>).</li>
+<li><strong>IP DST (Destinazione):</strong> <code>128.119.40.186</code> (IP Pubblico del Web Server, ottenuto tramite risoluzione DNS).</li>
+<li><strong>PORT DST:</strong> <code>80</code> (Porta <em>Well-Known</em> per il protocollo HTTP).</li>
+</ul>
+<h4 id="2-translation-il-router-modifica-il-pacchetto">2. TRANSLATION (Il Router modifica il pacchetto)</h4>
+<p>Il Router riceve il pacchetto, si rende conto che deve uscire su Internet, quindi esegue la traduzione (NAT-PAT) prima di spedirlo al Server Web.</p>
+<ul>
+<li><strong>Nuovo IP SRC:</strong> <code>82.10.20.30</code> (IP Pubblico del Router).</li>
+<li><strong>Nuova PORT SRC:</strong> <code>5001</code> (Il Router assegna una nuova porta univoca per tracciare questa specifica connessione).</li>
+<li><em>IP e PORT DST rimangono invariati.</em></li>
+</ul>
+<p>Il Router registra questa modifica nella sua <strong>NAT Table</strong>:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Inside Local (LAN)</th>
+					<th>Inside Global (WAN)</th>
+					<th>Outside Global (Server)</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>10.0.0.4:13334</code></td>
+					<td><code>82.10.20.30:5001</code></td>
+					<td><code>128.119.40.186:80</code></td>
+			</tr>
+	</tbody>
+</table>
+<h4 id="3-respond-dal-web-server-al-router">3. RESPOND (Dal Web Server al Router)</h4>
+<p>Il Web Server elabora la richiesta e risponde. Non conosce il tuo IP privato, quindi risponde all&rsquo;IP pubblico del Router.</p>
+<ul>
+<li><strong>IP SRC:</strong> <code>128.119.40.186</code></li>
+<li><strong>PORT SRC:</strong> <code>80</code></li>
+<li><strong>IP DST:</strong> <code>82.10.20.30</code> (Il tuo Router).</li>
+<li><strong>PORT DST:</strong> <code>5001</code> (La porta che il Router aveva aperto prima).</li>
+</ul>
+<h4 id="4-reverse-translation-dal-router-al-pc">4. REVERSE TRANSLATION (Dal Router al PC)</h4>
+<p>Il Router riceve il pacchetto. Legge la porta di destinazione (<code>5001</code>), consulta la <strong>NAT Table</strong> e capisce che quel pacchetto era in realtà per il tuo PC.
+Riscrive gli indirizzi di destinazione:</p>
+<ul>
+<li><strong>Nuovo IP DST:</strong> <code>10.0.0.4</code></li>
+<li><strong>Nuova PORT DST:</strong> <code>13334</code></li>
+</ul>
+<p>Il pacchetto viene infine consegnato al tuo PC, che non si è mai accorto di essere stato &ldquo;tradotto&rdquo;.</p>
+<p><img src="nat-pat-example.png" alt="Esempio di una NAT-PAT che sfrutta le porte date dal SO"></p>
+<p>Esempio di una NAT-PAT che sfrutta le porte date dal SO</p>
+
+            </div>
+        </article>
+    </main>
+</div>
+<footer class="footer">
+    <span class="footer_item"> </span>
+    &nbsp;
+
+    <div class="footer_social-icons">
+<a href="https://github.com/hash-andre" target="_blank" rel="noopener noreferrer me"
+    title="Github">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+</a>
+<a href="https://www.linkedin.com/in/andrearomano95/" target="_blank" rel="noopener noreferrer me"
+    title="Linkedin">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+</svg>
+</a>
+</div>
+    <small class="footer_copyright">
+        © 2026 Andrea Romano.
+        Generato dal tema <a href="https://github.com/hugo-sid/hugo-blog-awesome" target="_blank" rel="noopener">Hugo blog awesome</a>.
+    </small>
+</footer><a href="#" title="Torna all&#39;inizio" id="totop">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" stroke="currentColor" viewBox="0 96 960 960">
+    <path d="M283 704.739 234.261 656 480 410.261 725.739 656 677 704.739l-197-197-197 197Z"/>
+</svg>
+
+</a>
+
+
+    
+
+
+
+
+
+
+    
+    <script async src="http://localhost:1313/js/main.js" ></script>
+
+    
+
+</body>
+</html>

@@ -24,3 +24,147 @@ button:focus:not(:focus-visible) {
   outline: none;
   box-shadow: none;
 }
+
+/* Hierarchical browser used by the manual. */
+.man-page {
+  padding-top: 2rem;
+}
+
+.man-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1.75rem;
+  color: $gray;
+  font-family: $mono-family;
+  font-size: $small-font-size;
+
+  a {
+    border-bottom: 0;
+    text-decoration: none;
+  }
+}
+
+.man-header {
+  margin-bottom: 1.5rem;
+
+  .header-title {
+    text-align: left;
+  }
+}
+
+.man-description {
+  color: $gray;
+  margin-top: 0.25rem;
+}
+
+.man-intro {
+  margin-bottom: 1.5rem;
+}
+
+.man-browser {
+  border: 1px solid $light;
+  border-radius: 6px;
+  font-family: $mono-family;
+  overflow: hidden;
+}
+
+.man-browser-heading {
+  display: grid;
+  grid-template-columns: minmax(12rem, 2fr) 3fr;
+  padding: 0.45rem 0.85rem;
+  color: $gray;
+  background: $light;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.man-list {
+  list-style: none;
+  margin: 0;
+}
+
+.man-entry {
+  padding: 0;
+}
+
+.man-entry-line {
+  align-items: baseline;
+  display: grid;
+  gap: 0;
+  grid-template-columns: minmax(12rem, 2fr) 3fr;
+  padding: 0.45rem 0.85rem;
+}
+
+.man-entry-line:hover {
+  background: rgba(107, 120, 134, 0.08);
+}
+
+.man-entry-line a {
+  border-bottom: 0;
+  font-weight: $bold-weight;
+  text-decoration: none;
+}
+
+.man-entry-description {
+  color: $gray;
+  font-family: $sans-family;
+  font-size: $small-font-size;
+}
+
+.man-empty {
+  color: $gray;
+  padding: 0.75rem 0.85rem;
+}
+
+html.dark {
+  .man-path,
+  .man-description,
+  .man-entry-description,
+  .man-empty {
+    color: $dark-gray;
+  }
+
+  .man-browser {
+    border-color: $dark-light;
+  }
+
+  .man-browser-heading {
+    background: $dark-light;
+    color: $dark-gray;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not(.light) {
+    .man-path,
+    .man-description,
+    .man-entry-description,
+    .man-empty {
+      color: $dark-gray;
+    }
+
+    .man-browser {
+      border-color: $dark-light;
+    }
+
+    .man-browser-heading {
+      background: $dark-light;
+      color: $dark-gray;
+    }
+  }
+}
+
+@include media-query($on-mobile) {
+  .man-entry-line {
+    grid-template-columns: 1fr;
+  }
+
+  .man-entry-description {
+    grid-column: 1;
+  }
+
+  .man-browser-heading {
+    display: none;
+  }
+}

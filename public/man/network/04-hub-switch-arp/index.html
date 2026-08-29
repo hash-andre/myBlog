@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="it-IT"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title itemprop="name">04 — Hub, switch e ARP | Andrea Romano</title>
+<meta property="og:title" content="04 — Hub, switch e ARP | Andrea Romano" />
+<meta name="twitter:title" content="04 — Hub, switch e ARP | Andrea Romano" />
+<meta itemprop="name" content="04 — Hub, switch e ARP | Andrea Romano" />
+<meta name="application-name" content="04 — Hub, switch e ARP | Andrea Romano" />
+<meta property="og:site_name" content="Andrea Romano" />
+
+<meta name="description" content="Commutazione Ethernet, MAC address table e risoluzione ARP">
+<meta itemprop="description" content="Commutazione Ethernet, MAC address table e risoluzione ARP" />
+<meta property="og:description" content="Commutazione Ethernet, MAC address table e risoluzione ARP" />
+<meta name="twitter:description" content="Commutazione Ethernet, MAC address table e risoluzione ARP" />
+
+<meta property="og:locale" content="it-IT" />
+<meta name="language" content="it-IT" />
+
+  <link rel="alternate" hreflang="it" href="http://localhost:1313/man/network/04-hub-switch-arp/" title="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.165.0">
+
+    
+    <meta property="og:url" content="http://localhost:1313/man/network/04-hub-switch-arp/">
+	<meta property="og:site_name" content="Andrea Romano">
+	<meta property="og:title" content="04 — Hub, switch e ARP">
+	<meta property="og:description" content="Commutazione Ethernet, MAC address table e risoluzione ARP">
+	<meta property="og:locale" content="it_IT">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="man">
+		<meta property="article:published_time" content="2026-08-29T21:00:20+02:00">
+		<meta property="article:modified_time" content="2026-08-29T21:00:20+02:00">
+
+
+    
+    
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="04 — Hub, switch e ARP">
+	<meta name="twitter:description" content="Commutazione Ethernet, MAC address table e risoluzione ARP">
+
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/man/network/04-hub-switch-arp/">
+    <link href="/style.min.4e4ded410ce988a23b75f82b99ddc7bf77a23209baed4f331439154fafee5cbe.css" rel="stylesheet">
+    <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="theme-color" content="#434648">
+    <meta name="color-scheme" content="light dark">
+
+    
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+
+    
+    
+      <link rel="icon" type="image/svg+xml" href="/icons/favicon.min.fd7c380e42464d09dcb5f2064b7fd498cfb828d195efa65aa8e7b813b98a9b60.svg">
+
+    
+</head>
+<body data-theme = "dark" class="notransition">
+
+<script src="/js/theme.js"></script>
+
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="http://localhost:1313/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+stroke-linejoin="round" class="feather feather-home">
+<title>Inizio</title>
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"></path><path stroke-linecap="round" stroke-linejoin="round" d="M0.5 12.5V1.5C0.5 0.947715 0.947715 0.5 1.5 0.5H12.5C13.0523 0.5 13.5 0.947715 13.5 1.5V12.5C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C0.947715 13.5 0.5 13.0523 0.5 12.5Z"></path></svg>
+            </span>
+        </label>
+
+        <div class="trigger">
+            <ul class="trigger-container">
+                
+                
+                <li>
+                    <a class="menu-link " href="/">
+                        Hello World
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link active" href="/man/">
+                        man
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/posts/">
+                        posts
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/whoami/">
+                        whoami
+                    </a>
+                    
+                </li>
+                
+                <li class="menu-separator">
+                    <span>|</span>
+                </li>
+                
+                
+            </ul>
+            <a id="mode" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-sunny" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>LIGHT</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-moon" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>DARK</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="wrapper post man-page">
+    <main class="page-content" aria-label="Content">
+        <nav class="man-path" aria-label="Percorso">
+    <a href="/" aria-label="Home">~</a><span>/</span>
+    
+        
+    
+        
+            <a href="/man/">man</a><span>/</span>
+        
+    
+        
+            <a href="/man/network/">network</a><span>/</span>
+        
+    
+    <span aria-current="page">04 — Hub, switch e ARP</span>
+</nav>
+
+        <article>
+            <header class="header man-header">
+                <h1 class="header-title">04 — Hub, switch e ARP</h1>
+                <p class="man-description">Commutazione Ethernet, MAC address table e risoluzione ARP</p>
+            </header>
+            
+    
+        
+            
+        
+    
+    <details class="toc" open>
+        <summary><b>Sommario</b></summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-hub-vs-switch"><strong>1. Hub vs Switch</strong></a>
+      <ul>
+        <li><a href="#hub-obsoleto"><strong>Hub (Obsoleto)</strong></a></li>
+        <li><a href="#switch-standard-attuale"><strong>Switch (Standard Attuale)</strong></a></li>
+        <li><a href="#mac-address-table-learning--flooding"><strong>MAC Address Table (Learning &amp; Flooding)</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#2-tipologie-di-indirizzamento-l2"><strong>2. Tipologie di Indirizzamento L2</strong></a></li>
+    <li><a href="#3-arp-address-resolution-protocol"><strong>3. ARP (Address Resolution Protocol)</strong></a>
+      <ul>
+        <li><a href="#funzionamento-request--reply"><strong>Funzionamento (Request &amp; Reply)</strong></a></li>
+        <li><a href="#comandi-e-sicurezza"><strong>Comandi e Sicurezza</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </details>
+            <div class="page-content">
+                <blockquote>
+<p><strong>Nota</strong></p>
+<p><strong>Concetto Chiave:</strong></p>
+<p><strong>Hub:</strong> Dispositivo di Livello 1 (Fisico) → Stupido (Ripetitore).
+<strong>Switch:</strong> Dispositivo di Livello 2 (Data-Link) → Intelligente (Usa i MAC Address).</p>
+</blockquote>
+<h2 id="1-hub-vs-switch"><strong>1. Hub vs Switch</strong></h2>
+<h3 id="hub-obsoleto"><strong>Hub (Obsoleto)</strong></h3>
+<ul>
+<li><strong>Funzione:</strong> È un semplice <strong>ripetitore multiporta</strong>. Rigenera il segnale elettrico e lo invia a <strong>tutte</strong> le porte, tranne quella da cui è arrivato.</li>
+<li><strong>Logica:</strong> Non ha memoria, non ha una MAC Address Table.</li>
+<li><strong>Duplex:</strong> Opera in <strong>Half-Duplex</strong> (o trasmette o riceve, non entrambi contemporaneamente).</li>
+<li><strong>Problema:</strong> Genera alto traffico inutile e collisioni (tutti ricevono tutto, anche se non destinato a loro).</li>
+</ul>
+<h3 id="switch-standard-attuale"><strong>Switch (Standard Attuale)</strong></h3>
+<ul>
+<li><strong>Funzione:</strong> Invia i frame solo alla porta dove si trova il destinatario specifico.</li>
+<li><strong>Logica:</strong> &ldquo;Impara&rdquo; quale dispositivo è collegato a quale porta e lo memorizza nella <strong>MAC Address Table</strong>.</li>
+<li><strong>Duplex:</strong> Opera in <strong>Full-Duplex</strong> (invia e riceve contemporaneamente).</li>
+<li><strong>Comando:</strong> Per vedere la tabella su apparati Cisco: <code>show mac address-table</code>.</li>
+</ul>
+<p><img src="switch-topology.png" alt="Supponiamo un ping tra questi due terminali su uno switch"></p>
+<p>Supponiamo un ping tra questi due terminali su uno switch</p>
+<p><img src="mac-address-table.png" alt="Facendo un enable sull’interfaccia, posso vedere la Mac address Table dello switch, quindi le corrispondenze tra MAC address e porte fisiche (Ethernet)"></p>
+<p>Facendo un enable sull’interfaccia, posso vedere la Mac address Table dello switch, quindi le corrispondenze tra MAC address e porte fisiche (Ethernet)</p>
+<h3 id="mac-address-table-learning--flooding"><strong>MAC Address Table (Learning &amp; Flooding)</strong></h3>
+<ol>
+<li><strong>Iniziale (Tabella vuota):</strong> Lo switch riceve un frame. Non sa dove sia il destinatario, quindi lo manda a tutti (<strong>Flooding</strong>), comportandosi momentaneamente come un Hub.</li>
+<li><strong>Apprendimento:</strong> Guarda il <strong>MAC Sorgente</strong> del pacchetto in arrivo e si segna: <em>&ldquo;Il dispositivo X è sulla porta 1&rdquo;</em>.</li>
+<li><strong>A regime:</strong> Una volta compilata la tabella, invia i pacchetti solo alla porta specifica del destinatario (<strong>Forwarding</strong>).</li>
+</ol>
+<h2 id="2-tipologie-di-indirizzamento-l2"><strong>2. Tipologie di Indirizzamento L2</strong></h2>
+<p>Lo switch (e la scheda di rete) distingue il tipo di comunicazione leggendo il <strong>LSB (Least Significant Bit)</strong> del primo ottetto del MAC Address.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Tipo</th>
+					<th>Destinatario</th>
+					<th>MAC Address</th>
+					<th>Esempio</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Unicast</strong></td>
+					<td>1 a 1</td>
+					<td><strong>LSB = 0</strong></td>
+					<td>A parla solo con B.</td>
+			</tr>
+			<tr>
+					<td><strong>Multicast</strong></td>
+					<td>1 a Molti</td>
+					<td><strong>LSB = 1</strong></td>
+					<td>A parla con un gruppo specifico.</td>
+			</tr>
+			<tr>
+					<td><strong>Broadcast</strong></td>
+					<td>1 a Tutti</td>
+					<td><strong>Tutti F</strong></td>
+					<td><code>FFFF.FFFF.FFFF</code> (Tutti ascoltano).</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>Approfondimento  (Switch &amp; MAC Table):</strong></p>
+<p><a href="https://www.youtube.com/watch?v=Tpv5zqBXEkw&amp;list=PLod5uVuFMqhaEu_Qn9MmUbT6AiASm9Mja&amp;index=16">Youtube Link - Switch Logic &amp; Packet Tracer</a></p>
+<h2 id="3-arp-address-resolution-protocol"><strong>3. ARP (Address Resolution Protocol)</strong></h2>
+<blockquote>
+<p><strong>Nota</strong></p>
+<p><strong>A cosa serve?</strong></p>
+<p>Noi usiamo indirizzi <strong>IP (Livello 3)</strong> per comunicare (es. Ping 192.168.1.5), ma gli switch e le schede di rete capiscono solo <strong>MAC Address (Livello 2)</strong>.
+<strong>ARP</strong> è il traduttore: converte un IP noto in un MAC Address sconosciuto.</p>
+</blockquote>
+<h3 id="funzionamento-request--reply"><strong>Funzionamento (Request &amp; Reply)</strong></h3>
+<p>Immagina di voler fare un Ping verso un IP, ma la tua <strong>ARP Cache</strong> è vuota.</p>
+<ol>
+<li><strong>ARP Request (Chi è 192.168.1.5?):</strong>
+<ul>
+<li>Il mittente non conosce il MAC del destinatario.</li>
+<li>Invia un pacchetto a indirizzo <strong>Broadcast</strong> (<code>FFFF.FFFF.FFFF</code>).</li>
+<li>Tutti ricevono la domanda.</li>
+</ul>
+</li>
+<li><strong>ARP Reply (Sono io!):</strong>
+<ul>
+<li>Gli host che non hanno quell&rsquo;IP ignorano il pacchetto.</li>
+<li>L&rsquo;host che possiede l&rsquo;IP risponde in <strong>Unicast</strong> (diretto al richiedente) comunicando il proprio MAC Address.</li>
+</ul>
+</li>
+<li><strong>Caching:</strong>
+<ul>
+<li>Il mittente salva la coppia IP-MAC nella sua <strong>ARP Cache Table</strong> per non dover chiedere di nuovo in futuro.</li>
+</ul>
+</li>
+</ol>
+<p><img src="arp-cache.png" alt="comando arp -a"></p>
+<p>comando arp -a</p>
+<h3 id="comandi-e-sicurezza"><strong>Comandi e Sicurezza</strong></h3>
+<ul>
+<li><code>arp -a</code>: Visualizza la tabella ARP corrente (Windows/Linux/Cisco).</li>
+<li><code>sudo arp -s</code>: Aggiunge una voce statica manuale (utile per sicurezza).</li>
+<li><strong>Vulnerabilità: (ARP Spoofing/Poisoning):</strong> Un attaccante può inviare risposte ARP false, dicendo &ldquo;L&rsquo;IP del Router corrisponde al MIO MAC address&rdquo;, intercettando tutto il traffico (Man In The Middle).</li>
+</ul>
+<p><strong>Approfondimento (ARP):</strong></p>
+<p><a href="https://www.youtube.com/watch?v=C-_B4dEvdr4&amp;list=PLod5uVuFMqhaEu_Qn9MmUbT6AiASm9Mja&amp;index=17">Youtube Link - ARP Protocol Explanation</a></p>
+
+            </div>
+        </article>
+    </main>
+</div>
+<footer class="footer">
+    <span class="footer_item"> </span>
+    &nbsp;
+
+    <div class="footer_social-icons">
+<a href="https://github.com/hash-andre" target="_blank" rel="noopener noreferrer me"
+    title="Github">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+</a>
+<a href="https://www.linkedin.com/in/andrearomano95/" target="_blank" rel="noopener noreferrer me"
+    title="Linkedin">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+</svg>
+</a>
+</div>
+    <small class="footer_copyright">
+        © 2026 Andrea Romano.
+        Generato dal tema <a href="https://github.com/hugo-sid/hugo-blog-awesome" target="_blank" rel="noopener">Hugo blog awesome</a>.
+    </small>
+</footer><a href="#" title="Torna all&#39;inizio" id="totop">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" stroke="currentColor" viewBox="0 96 960 960">
+    <path d="M283 704.739 234.261 656 480 410.261 725.739 656 677 704.739l-197-197-197 197Z"/>
+</svg>
+
+</a>
+
+
+    
+
+
+
+
+
+
+    
+    <script async src="http://localhost:1313/js/main.js" ></script>
+
+    
+
+</body>
+</html>
