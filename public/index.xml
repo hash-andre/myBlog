@@ -1,23 +1,58 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>myBlog</title>
+    <title>Andrea Romano</title>
     <link>http://localhost:1313/</link>
-    <description>Recent content on myBlog</description>
+    <description>Recent content on Andrea Romano</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 28 Aug 2026 22:45:10 +0200</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <language>it-IT</language>
+    <lastBuildDate>Mon, 02 Jan 2006 00:00:00 +0100</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My First Post</title>
+      <title>lab1</title>
+      <link>http://localhost:1313/man/lab/active-directory/ad-00/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/man/lab/active-directory/ad-00/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>lab2</title>
+      <link>http://localhost:1313/man/lab/active-directory/ad-01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/man/lab/active-directory/ad-01/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title></title>
       <link>http://localhost:1313/posts/my-first-post/</link>
-      <pubDate>Fri, 28 Aug 2026 22:45:10 +0200</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://localhost:1313/posts/my-first-post/</guid>
       
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text, and this is &lt;em&gt;emphasized&lt;/em&gt; text.
-the path for this file is http://localhost:1313/posts/my-first-post/&lt;/p&gt;
-&lt;p&gt;Visit the &lt;a href=&#34;http://localhost:1313/&#34;&gt;Hugo&lt;/a&gt; website!&lt;/p&gt;</description>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Whoami</title>
+      <link>http://localhost:1313/whoami/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/whoami/</guid>
+      
+      <description>&lt;hr&gt;
+&lt;h1 id=&#34;andrea-romano&#34;&gt;Andrea Romano&lt;/h1&gt;
+&lt;p&gt;Lavoro in Svizzera in un contesto industriale e studio informatica. Sto costruendo il passaggio verso il mondo IT partendo dalle fondamenta: sistemi operativi, networking, supporto tecnico e sicurezza informatica.&lt;/p&gt;
+&lt;p&gt;Nel mio lavoro attuale, oltre alle attività operative, mi capita di aiutare il reparto nel troubleshooting di problemi informatici. È stato uno dei punti di contatto tra il lavoro che svolgo oggi e quello verso cui voglio crescere.&lt;/p&gt;
+&lt;h2 id=&#34;cosa-sto-studiando&#34;&gt;Cosa sto studiando&lt;/h2&gt;
+&lt;p&gt;Uso quotidianamente Linux, principalmente Arch Linux, e lavoro anche con ambienti Windows. Sto approfondendo networking, Active Directory, Microsoft 365, SSH, WSL e Docker attraverso studio teorico e laboratori pratici.&lt;/p&gt;</description>
       
     </item>
     

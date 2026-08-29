@@ -1,9 +1,9 @@
 {
-    "name": "myBlog",
-    "short_name": "myBlog",
+    "name": "Andrea Romano",
+    "short_name": "Andrea Romano",
     "start_url": "http://localhost:1313/",
     "theme_color": "#434648",
-    "background_color": "#ffffff",
+    "background_color": "#131418",
     "display": "standalone",
     "icons": [
         {

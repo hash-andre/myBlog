@@ -2,17 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/my-first-post/</loc>
-    <lastmod>2026-08-28T22:45:10+02:00</lastmod>
+    <loc>http://localhost:1313/man/lab/active-directory/</loc>
+  </url><url>
+    <loc>http://localhost:1313/man/lab/</loc>
+  </url><url>
+    <loc>http://localhost:1313/man/lab/active-directory/ad-00/</loc>
+  </url><url>
+    <loc>http://localhost:1313/man/lab/active-directory/ad-01/</loc>
   </url><url>
     <loc>http://localhost:1313/</loc>
     <lastmod>2026-08-28T22:45:10+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>http://localhost:1313/man/</loc>
     <lastmod>2026-08-28T22:45:10+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/man/my-first-post/</loc>
+    <lastmod>2026-08-28T22:45:10+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+  </url><url>
+    <loc>http://localhost:1313/posts/my-first-post/</loc>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
+  </url><url>
+    <loc>http://localhost:1313/whoami/</loc>
   </url>
 </urlset>

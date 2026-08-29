@@ -1,4 +1,61 @@
-baseURL = 'https://example.org/'
-locale = 'en-us'
-title = 'myBlog'
-theme = 'hugo-blog-awesome'
+baseURL = "https://tuo-dominio.it/"
+title = "Andrea Romano"
+theme = "hugo-blog-awesome"
+
+locale = "it-IT"
+defaultContentLanguage = "it"
+defaultContentLanguageInSubdir = false
+timeZone = "Europe/Rome"
+
+pluralizeListTitles = false
+
+############ NAV ############
+
+[menu]
+  [[menu.main]]
+    name = "Hello World"
+    pageRef = "/"
+    weight = 10
+
+  [[menu.main]]
+    name = "man"
+    pageRef = "/man"
+    weight = 20
+
+  [[menu.main]]
+    name = "posts"
+    pageRef = "/posts"
+    weight = 30
+
+  [[menu.main]]
+    name = "whoami"
+    pageRef = "/whoami"
+    weight = 30
+
+[params]
+  sitename = "Andrea Romano"
+  defaultColor = "dark"
+  description = "Appunti, laboratori e progetti su Linux, networking, sistemi e cybersecurity."
+  mainSections = ["posts"]
+  # toc is the summary menu
+  toc = true
+  tocOpen = true
+  goToTop = true
+  dateFormat = "02/01/2006"
+  rssFeedDescription = "summary"
+
+[params.author]
+  # Avatar image goes on assets folder
+  avatar = "avatar.jpeg"
+  intro = "Costruisco il mio percorso nell’IT, un sistema alla volta."
+  name = "Andrea Romano"
+  description = "Scrivo di sistemi, Linux, networking e cybersecurity."
+
+############ SOCIAL MEDIA ############
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/hash-andre"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/andrearomano95/"
