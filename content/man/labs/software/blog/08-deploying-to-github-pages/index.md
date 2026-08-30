@@ -1,6 +1,6 @@
 ---
 title: "08 — Deploying the Hugo site to GitHub Pages"
-description: "Repository preparation, project-site URLs, GitHub Actions, artifacts, and continuous deployment"
+description: "Continuous deployment with the workflow recommended by the official Hugo documentation"
 date: 2026-08-30T11:20:00+02:00
 show_in_posts: true
 weight: 90
@@ -8,178 +8,98 @@ weight: 90
 
 ## Deployment target
 
-The source repository is:
+This repository is published as a GitHub Pages project site:
 
 ```text
-https://github.com/hash-andre/myBlog
+Repository: https://github.com/hash-andre/myBlog
+Website:    https://hash-andre.github.io/myBlog/
 ```
 
-Because the repository is named `myBlog` rather than
-`hash-andre.github.io`, GitHub treats it as a project site. Its default public
-URL is therefore:
+The repository is named `myBlog`, so `/myBlog/` is part of the public URL. Hugo
+must include this prefix in canonical URLs, stylesheets, images, and internal
+navigation.
 
-```text
-https://hash-andre.github.io/myBlog/
-```
-
-The `/myBlog/` prefix is part of the production URL. It affects canonical URLs,
-stylesheets, images, menu links, RSS, and every internal link generated during
-the build.
-
-## What performs the deployment
-
-There are two separate operations:
-
-```text
-Hugo                              GitHub Pages Actions
-------------------------------    -----------------------------------
-reads content and templates       receives the generated artifact
-builds the static site            publishes it to GitHub Pages
-writes files to public/           records the deployment environment
-```
-
-The command named `hugo deploy` is not the GitHub Pages mechanism. Hugo's
-built-in deployment command synchronizes `public/` with Amazon S3, Azure Blob
-Storage, or Google Cloud Storage targets. GitHub Pages instead expects a Pages
-artifact and publishes it through `actions/deploy-pages`.
-
-The production pipeline for this repository is:
-
-```text
-git push origin main
-    -> GitHub Actions runner
-    -> checkout source and theme submodule
-    -> install Dart Sass and Hugo
-    -> hugo build
-    -> upload public/ as a Pages artifact
-    -> deploy the artifact to the github-pages environment
-```
-
-This follows the current
-[Hugo GitHub Pages guide](https://gohugo.io/host-and-deploy/host-on-github-pages/)
-and GitHub's documentation for
-[custom Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
-
-## Keeping generated output out of Git
-
-`public/` is build output, not source. Hugo recreates it from `content/`,
-`layouts/`, `assets/`, `static/`, the theme, and `hugo.toml`. Committing it would
-make every local build produce a large HTML and fingerprinted-asset diff even
-though GitHub Actions builds the same directory again.
-
-The repository now ignores both published output and generated resource caches:
-
-```gitignore
-/public/
-/resources/_gen/
-/.hugo_build.lock
-```
-
-Files that were already tracked had to be removed from the Git index once:
-
-```bash
-git rm -r --cached public resources/_gen
-```
-
-`--cached` is important: it removes the paths from the next commit but leaves
-the local files on disk. Later builds may replace those local directories
-freely, and Git no longer reports them as source changes.
-
-The official Hugo guide explicitly recommends not committing the configured
-publish directory.
-
-## Configuring the project-site base URL
-
-The fallback production URL is stored in `hugo.toml`:
+The repository keeps the production fallback in `hugo.toml`:
 
 ```toml
 baseURL = "https://hash-andre.github.io/myBlog/"
 ```
 
-The workflow does not assume that this value will remain correct forever.
-`actions/configure-pages` discovers the URL configured by GitHub and exposes it
-as `steps.pages.outputs.base_url`. The build uses that result:
+During CI, the workflow uses the URL returned by GitHub Pages instead of
+duplicating this value:
 
 ```bash
 hugo build \
   --gc \
   --minify \
-  --cleanDestinationDir \
-  --baseURL "${{ steps.pages.outputs.base_url }}/"
+  --baseURL "${{ steps.pages.outputs.base_url }}/" \
+  --cacheDir "${{ runner.temp }}/.cache/hugo"
 ```
 
-The command-line value takes precedence over `hugo.toml`. This lets the same
-workflow follow a future custom domain or repository rename without hard-coding
-the Pages URL a second time.
+## Official deployment procedure
 
-The final slash is intentional. Hugo joins site-relative paths against the base
-URL, and a project site must preserve `/myBlog/` as a directory prefix.
+The setup follows the current
+[Hugo guide for GitHub Pages](https://gohugo.io/host-and-deploy/host-on-github-pages/).
+The procedure is:
 
-## Repairing internal links for a subdirectory deployment
+1. open **Settings → Pages** in the GitHub repository;
+2. select **GitHub Actions** as the publishing source;
+3. add `.github/workflows/hugo.yaml`;
+4. configure Hugo's image cache to use `:cacheDir/images`;
+5. commit and push the source;
+6. verify the build and deploy jobs in the Actions page;
+7. open the URL reported by the deploy job.
 
-A root-relative Markdown link such as:
+Every later push to `main` starts a new build and deployment automatically. The
+workflow can also be started manually with `workflow_dispatch`.
 
-```md
-[Manual](/man/)
-```
+## What the workflow does
 
-points to `https://hash-andre.github.io/man/`, outside this project site. It may
-appear correct during local development at `localhost:1313`, where the site is
-served from `/`, and then fail only after deployment.
-
-Internal content links were changed to Hugo `relref` shortcodes:
-
-```go-html-template
-[Manual]({{</* relref "/man" */>}})
-```
-
-Hugo resolves the target page and emits a URL that includes the current base
-path. The same rule was applied to cross-links between engineering logs.
-
-Links generated by `.RelPermalink`, `pageRef`, and `relLangURL` already pass
-through Hugo and therefore follow the configured base URL. Absolute external
-links remain unchanged.
-
-## Keeping the image cache in the CI cache directory
-
-The official workflow gives Hugo a runner-specific cache directory. The image
-cache is configured to follow it:
-
-```toml
-[caches]
-  [caches.images]
-    dir = ":cacheDir/images"
-```
-
-The workflow then builds with:
+The deployment pipeline has two jobs:
 
 ```text
---cacheDir "${{ runner.temp }}/.cache/hugo"
+build                                      deploy
+---------------------------------------    ------------------------------
+checkout source and theme submodule        download the Pages artifact
+install the required tools                 publish it to GitHub Pages
+build the site into public/                report the deployed URL
+upload public/ as a Pages artifact
 ```
 
-This keeps cached image transformations out of the source tree and allows the
-Actions cache steps to reuse them across builds.
-
-## The GitHub Actions workflow
-
-The deployment definition lives at:
-
-```text
-.github/workflows/hugo.yaml
-```
-
-It runs after every push to `main` and can also be started manually from the
-Actions page:
+The workflow uses the action versions shown by the official guide:
 
 ```yaml
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+actions/checkout@v7
+actions/configure-pages@v6
+actions/setup-go@v6
+actions/setup-node@v6
+actions/cache/restore@v6
+actions/cache/save@v6
+actions/upload-pages-artifact@v5
+actions/deploy-pages@v5
 ```
 
-The token receives only the permissions required by the pipeline:
+Go and Node.js are installed only when the repository contains `go.mod` or
+`package-lock.json`. Hugo and Dart Sass are installed explicitly so the build
+does not depend on the tools preinstalled in `ubuntu-latest`.
+
+The versions used by this repository are:
+
+```yaml
+DART_SASS_VERSION: 1.102.0
+GO_VERSION: 1.26.5
+HUGO_VERSION: 0.165.0
+NODE_VERSION: 24.19.0
+TZ: Europe/Rome
+```
+
+The theme is a Git submodule, so checkout and the explicit initialization step
+both use recursive submodules. A fresh Actions runner can therefore obtain
+`themes/hugo-blog-awesome` before Hugo starts.
+
+## Permissions and concurrency
+
+The workflow token receives only the permissions needed by GitHub Pages:
 
 ```yaml
 permissions:
@@ -188,12 +108,7 @@ permissions:
   id-token: write
 ```
 
-- `contents: read` checks out the repository;
-- `pages: write` publishes a Pages deployment;
-- `id-token: write` lets `deploy-pages` use GitHub's OpenID Connect token.
-
-The concurrency group prevents two Pages deployments from publishing at the
-same time. An in-progress deployment is allowed to finish:
+The Pages concurrency group prevents simultaneous publications:
 
 ```yaml
 concurrency:
@@ -201,254 +116,133 @@ concurrency:
   cancel-in-progress: false
 ```
 
-## Reproducing the build environment
+An active deployment is allowed to finish while a later queued run waits.
 
-The workflow pins tool versions instead of depending on whatever happens to be
-preinstalled on `ubuntu-latest`:
+## Generated files are not source
 
-```yaml
-env:
-  DART_SASS_VERSION: 1.102.0
-  HUGO_VERSION: 0.165.0
-  TZ: Europe/Rome
+The official Hugo guide says not to commit the publish directory. Hugo recreates
+`public/` on every build, while `resources/_gen/` and `.hugo_build.lock` are
+local generated state. The repository therefore contains:
+
+```gitignore
+/public/
+/resources/_gen/
+/.hugo_build.lock
+/commit.log
 ```
 
-Hugo `0.165.0` matches the version used for the local verification. Dart Sass
-is installed because the project and theme process SCSS. The time zone matches
-the site's configuration so date interpretation is consistent.
+`commit.log` is a local audit file rather than website source, so it is kept on
+the workstation but excluded from commits and deployments.
 
-The checkout step also initializes the theme:
+The workflow uploads `public/` as an artifact after the build. It does not add
+the generated HTML, CSS, JavaScript, feeds, or processed images to Git.
 
-```yaml
-- name: Checkout
-  uses: actions/checkout@v7
-  with:
-    submodules: recursive
-    fetch-depth: 0
+## Image cache configuration
+
+The guide requires image transformations to follow the cache directory supplied
+to Hugo by the runner. In `hugo.toml`:
+
+```toml
+[caches]
+  [caches.images]
+    dir = ":cacheDir/images"
 ```
 
-Without `submodules: recursive`, `themes/hugo-blog-awesome/` would be empty in a
-fresh runner and Hugo would fail to find the theme templates and assets.
-
-The build job uses the current official Pages actions:
-
-```yaml
-- name: Setup Pages
-  id: pages
-  uses: actions/configure-pages@v6
-
-- name: Upload Pages artifact
-  uses: actions/upload-pages-artifact@v5
-  with:
-    path: ./public
-```
-
-`configure-pages` provides site metadata, including `base_url`.
-`upload-pages-artifact` packages only the generated site rather than the whole
-repository.
-
-## Separating build and deploy jobs
-
-The workflow has two jobs. `build` can fail without creating a deployment. The
-second job runs only after a successful artifact upload:
-
-```yaml
-deploy:
-  needs: build
-  environment:
-    name: github-pages
-    url: ${{ steps.deployment.outputs.page_url }}
-  steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v5
-```
-
-The `github-pages` environment records the deployment and exposes its URL in the
-Actions interface. Keeping publication in a separate job makes the boundary
-clear: a successful Hugo build is not yet a successful external deployment.
-
-## Enabling Pages for the first deployment
-
-The repository must use GitHub Actions as its Pages source. In the web
-interface, the setting is:
+The cache restore and save steps use:
 
 ```text
-repository -> Settings -> Pages -> Build and deployment -> Source
-           -> GitHub Actions
+${{ runner.temp }}/.cache/hugo
 ```
 
-The source setting is repository state, not Hugo configuration. Committing a
-workflow does not always enable Pages automatically for a repository that has
-never published a site. If the first workflow reports that Pages is not enabled,
-set the source once and re-run it.
+This keeps generated resources out of the source tree and lets later workflow
+runs reuse cached transformations.
 
-GitHub documents this prerequisite under
-[configuring a publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
+## Internal links on a project site
 
-## Connecting and publishing the repository
+A root-relative link such as `/man/` points to the account root:
 
-The local repository initially had no remote. The first connection used the
-HTTPS URL supplied when the GitHub repository was created:
-
-```bash
-git remote add origin https://github.com/hash-andre/myBlog.git
+```text
+https://hash-andre.github.io/man/
 ```
 
-That URL is correct, but the non-interactive shell had no HTTPS credential
-helper or token, so the first push could not ask for a username. An existing
-SSH key was already authorized for the `hash-andre` account. After verifying it
-with `ssh -T git@github.com`, the remote transport was changed without changing
-the destination repository:
+That is outside this project site. Content links that must follow the configured
+base URL use Hugo's `relref` shortcode instead:
 
-```bash
-git remote set-url origin git@github.com:hash-andre/myBlog.git
+```go-html-template
+[Manual]({{</* relref "/man" */>}})
 ```
 
-The remote was not completely empty: GitHub had created an independent
-`Initial commit` containing `LICENSE`. A normal push correctly rejected the
-non-fast-forward update. Instead of forcing it, the remote commit was fetched
-and integrated:
+Hugo then emits a link below `/myBlog/`. Links produced by `.RelPermalink`,
+`pageRef`, and `relLangURL` already follow the active base URL.
+
+## Local verification
+
+Before pushing, the same production URL can be tested without writing generated
+files into Git:
 
 ```bash
-git fetch origin main
-git merge origin/main --allow-unrelated-histories --no-edit
-```
-
-This preserves both histories and the GitHub-created license. A force push was
-neither necessary nor appropriate.
-
-The source, workflow, submodule reference, and content are then recorded and
-published:
-
-```bash
-git add -A
-git commit -m "Configure site content and GitHub Pages deployment"
-git push -u origin main
-```
-
-The push triggers the workflow automatically. Future publication requires only
-a normal commit and push; `public/` is never added manually.
-
-## First workflow run and Pages bootstrap
-
-The first published workflow was run
-[`33304372188`](https://github.com/hash-andre/myBlog/actions/runs/33304372188).
-It stopped in the build job at `Setup Pages`; the Hugo installation, build,
-artifact upload, and deploy steps were skipped. This distinction matters: it
-was not a Hugo compilation failure.
-
-At that moment the GitHub repository API reported `has_pages: false`.
-`actions/configure-pages` could not read a Pages site because none had been
-created yet. Enabling Pages and selecting `GitHub Actions` as the source is a
-one-time repository bootstrap step. Once it is done, re-running the failed
-workflow or pushing another commit allows the same pipeline to proceed to the
-Hugo build.
-
-The workflow's built-in `GITHUB_TOKEN` cannot silently perform this first
-administrative enablement. The action supports an `enablement` option only when
-it receives a different token with repository administration and Pages write
-permissions. Keeping that privileged token out of the repository is preferable
-to adding a long-lived secret just to replace a single settings change.
-
-## Local production verification
-
-Before pushing, the production path can be tested locally without changing the
-configuration file:
-
-```bash
+output_dir="$(mktemp -d)"
 cache_dir="$(mktemp -d)"
 
-hugo \
+hugo build \
   --gc \
   --minify \
-  --cleanDestinationDir \
   --baseURL "https://hash-andre.github.io/myBlog/" \
+  --destination "$output_dir" \
   --cacheDir "$cache_dir" \
   --printPathWarnings
 ```
 
-Passing a writable cache directory mirrors the runner configuration and keeps
-the verification independent of permissions on a user-level default cache.
+The verification checks that:
 
-The generated output is checked for:
+- Hugo completes without errors or path warnings;
+- canonical URLs use the GitHub Pages project URL;
+- stylesheets, icons, images, and internal links retain the `/myBlog/` prefix;
+- the theme submodule is available;
+- `public/` remains untracked.
 
-- canonical links below `https://hash-andre.github.io/myBlog/`;
-- stylesheets and icons below `/myBlog/`;
-- internal manual and posts links below `/myBlog/`;
-- the theme submodule being available;
-- no missing templates or path warnings.
+## Publishing and verification
 
-## Verifying the remote deployment
+Publishing is a normal Git operation:
 
-After the push, verification has three layers:
-
-1. the `build` job must complete;
-2. the `deploy` job must report the `github-pages` environment URL;
-3. the live URL must return the generated site with working CSS and internal
-   navigation.
-
-The relevant locations are:
-
-```text
-Repository actions:
-https://github.com/hash-andre/myBlog/actions
-
-Expected site:
-https://hash-andre.github.io/myBlog/
+```bash
+git add .
+git commit -m "Update site and GitHub Pages deployment"
+git push origin main
 ```
 
-A green workflow alone is not enough. A wrong base URL can produce a successful
-deployment whose HTML loads without its CSS or whose links leave the project
-path.
-
-## Common failure modes
-
-### The theme cannot be found
-
-Confirm that `.gitmodules` is committed and checkout uses
-`submodules: recursive`.
-
-### The workflow cannot deploy Pages
-
-Confirm that Pages uses the GitHub Actions source and that the workflow has
-`pages: write` and `id-token: write`.
-
-### The home page works but CSS or images return 404
-
-Inspect the generated URLs. Project sites need the `/myBlog/` prefix. The build
-must use the URL produced by `configure-pages` or the correct project `baseURL`.
-
-### Internal links leave the project site
-
-Replace hard-coded root-relative content links with `relref`, `ref`,
-`.RelPermalink`, or another Hugo URL function.
-
-### Git shows hundreds of generated changes
-
-Confirm that `public/` and `resources/_gen/` are ignored and no longer tracked.
-Do not repair generated HTML directly; change the source and rebuild.
-
-## Ongoing publication workflow
-
-After the initial setup, the normal release path is intentionally small:
+The push triggers the workflow. A deployment is complete only after both jobs
+are green and the live site responds correctly:
 
 ```text
-edit source
--> hugo local verification
--> git commit
--> git push origin main
--> GitHub Actions build
--> GitHub Pages deploy
+Actions: https://github.com/hash-andre/myBlog/actions
+Site:    https://hash-andre.github.io/myBlog/
 ```
 
-Hugo remains responsible for transforming the site. GitHub remains responsible
-for hosting and deployment state. Keeping that boundary explicit makes local
-builds reproducible without storing generated pages in the source history.
+If `Setup Pages` reports that Pages is not enabled, the repository still needs
+the one-time **Settings → Pages → Source → GitHub Actions** selection. If the
+site loads without CSS or internal links leave the site, inspect the generated
+URLs and confirm that they include `/myBlog/`.
+
+## Ongoing publication flow
+
+```text
+edit Markdown, templates, or assets
+        ↓
+verify the Hugo production build locally
+        ↓
+commit and push main
+        ↓
+GitHub Actions builds public/
+        ↓
+GitHub Pages publishes the artifact
+```
+
+The source remains in Git, Hugo remains responsible for the static build, and
+GitHub Pages remains responsible for hosting the generated artifact.
 
 References:
 
 - [Hugo: Host on GitHub Pages](https://gohugo.io/host-and-deploy/host-on-github-pages/)
-- [Hugo: Deploy with `hugo deploy`](https://gohugo.io/host-and-deploy/deploy-with-hugo-deploy/)
 - [GitHub: Using custom workflows with GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
 - [GitHub: Configuring a publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)

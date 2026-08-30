@@ -63,3 +63,7 @@ url = "https://github.com/hash-andre"
 [[params.socialIcons]]
 name = "linkedin"
 url = "https://www.linkedin.com/in/andrearomano95/"
+
+[[params.socialIcons]]
+name = "email"
+url = "mailto:andrearomano1995@protonmail.com"
