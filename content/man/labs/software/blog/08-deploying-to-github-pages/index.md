@@ -97,6 +97,30 @@ The theme is a Git submodule, so checkout and the explicit initialization step
 both use recursive submodules. A fresh Actions runner can therefore obtain
 `themes/hugo-blog-awesome` before Hugo starts.
 
+### Selecting Dart Sass in the theme pipeline
+
+The theme's upstream head partial calls `toCSS` without selecting a transpiler.
+The default is `libsass`, which is available only in Hugo extended builds. The
+official Pages workflow installs the standard Hugo binary and the external Dart
+Sass executable, so this site overrides only the theme's head partial at:
+
+```text
+layouts/_partials/head.html
+```
+
+The local override preserves the theme markup and changes the Sass options to:
+
+```go-html-template
+{{ $styleOptions := dict
+  "targetPath" "style.css"
+  "transpiler" "dartsass"
+}}
+```
+
+This makes the template use the Dart Sass installation supplied by the official
+workflow. It also allows a clean checkout, with no pre-generated resource cache,
+to compile the SCSS successfully.
+
 ## Permissions and concurrency
 
 The workflow token receives only the permissions needed by GitHub Pages:
