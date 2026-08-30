@@ -1,7 +1,7 @@
 ---
 title: "01 — Ethernet cablato: livello fisico (L1)"
 description: "Standard, cablaggio, connettori e pinout Ethernet"
-date: 2026-08-29T20:59:00+02:00
+date: 2026-08-08T09:15:00+02:00
 show_in_posts: true
 weight: 20
 ---

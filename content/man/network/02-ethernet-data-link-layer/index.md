@@ -1,7 +1,7 @@
 ---
 title: "02 — Ethernet cablato: livello Data-Link (L2)"
 description: "MAC address, frame Ethernet, MTU e frammentazione"
-date: 2026-08-29T21:00:00+02:00
+date: 2026-08-08T12:30:00+02:00
 show_in_posts: true
 math: true
 weight: 30

@@ -1,7 +1,7 @@
 ---
 title: "08 — STP e ICMPv4"
 description: "Spanning Tree Protocol, prevenzione dei loop e messaggi ICMPv4"
-date: 2026-08-29T21:02:10+02:00
+date: 2026-08-14T11:00:00+02:00
 show_in_posts: true
 math: true
 weight: 90

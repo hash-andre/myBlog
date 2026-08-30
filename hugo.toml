@@ -1,4 +1,4 @@
-baseURL = "https://tuo-dominio.it/"
+baseURL = "https://hash-andre.github.io/myBlog/"
 title = "Andrea Romano"
 theme = "hugo-blog-awesome"
 
@@ -50,6 +50,10 @@ pluralizeListTitles = false
   intro = "Costruisco il mio percorso nell’IT, un sistema alla volta."
   name = "Andrea Romano"
   description = "Scrivo di sistemi, Linux, networking e cybersecurity."
+
+[caches]
+  [caches.images]
+    dir = ":cacheDir/images"
 
 ############ SOCIAL MEDIA ############
 [[params.socialIcons]]

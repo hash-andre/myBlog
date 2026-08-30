@@ -1,7 +1,7 @@
 ---
 title: "00 — Building the blog"
 description: "Why I chose Hugo, how I created the project, and what I wanted from the site"
-date: 2026-08-28T22:30:00+02:00
+date: 2026-08-02T10:00:00+02:00
 show_in_posts: true
 weight: 10
 ---
@@ -43,8 +43,6 @@ format is not the website, and the website generator is not the editor.
 My pipeline starts one step later because I already work comfortably with
 Notion and Markdown:
 
-![Markdown is transformed by Hugo into the files served by the website](markdown-to-static-site.png)
-
 ```text
 Notion -> Markdown and resources -> review -> Hugo -> static website
 ```
@@ -81,10 +79,10 @@ provides a local server with automatic rebuilds.
 The important boundary is this:
 
 ```text
-Source of truth                         Generated output
-------------------------------------    ----------------
+Source                                  Generated output
+------------                            ----------------
 content/                                public/
-layouts/            -> Hugo build ->   HTML pages
+layouts/            -> Hugo build ->    HTML pages
 assets/                                 CSS and JavaScript
 static/                                 copied static files
 hugo.toml                               page resources

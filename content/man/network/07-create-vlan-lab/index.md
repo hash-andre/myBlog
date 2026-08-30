@@ -1,7 +1,7 @@
 ---
 title: "07 — Creare una VLAN"
 description: "Laboratorio VLAN e inter-VLAN routing con Cisco Packet Tracer"
-date: 2026-08-29T21:02:00+02:00
+date: 2026-08-12T16:10:00+02:00
 show_in_posts: true
 weight: 80
 ---

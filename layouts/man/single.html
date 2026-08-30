@@ -1,14 +1,24 @@
 {{ define "main" }}
-<div class="wrapper post man-page">
+{{ $tocEnabled := .Site.Params.toc }}
+{{ if isset .Params "toc" }}
+    {{ $tocEnabled = .Params.toc }}
+{{ end }}
+<div class="wrapper post man-page man-document-page">
     <main class="page-content" aria-label="Content">
-        {{ partial "man/breadcrumb.html" . }}
-        <article>
-            <header class="header man-header">
-                <h1 class="header-title">{{ .Title }}</h1>
-                {{ with .Description }}<p class="man-description">{{ . }}</p>{{ end }}
-            </header>
-            {{ partial "toc.html" . }}
-            <div class="page-content">
+        <article class="man-document-layout{{ if $tocEnabled }} man-document-layout-with-toc{{ end }}">
+            <div class="man-document-intro">
+                {{ partial "man/breadcrumb.html" . }}
+                <header class="header man-header">
+                    <h1 class="header-title">{{ .Title }}</h1>
+                    {{ with .Description }}<p class="man-description">{{ . }}</p>{{ end }}
+                </header>
+            </div>
+            {{ if $tocEnabled }}
+            <aside class="man-toc" aria-label="{{ T "single.table_of_contents" }}">
+                {{ partial "toc.html" . }}
+            </aside>
+            {{ end }}
+            <div class="page-content man-document-content">
                 {{ .Content }}
             </div>
         </article>

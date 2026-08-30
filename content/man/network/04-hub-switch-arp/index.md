@@ -1,7 +1,7 @@
 ---
 title: "04 — Hub, switch e ARP"
 description: "Commutazione Ethernet, MAC address table e risoluzione ARP"
-date: 2026-08-29T21:00:20+02:00
+date: 2026-08-11T10:20:00+02:00
 show_in_posts: true
 weight: 50
 ---

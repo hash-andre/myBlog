@@ -1,7 +1,7 @@
 ---
 title: "00 — Modello ISO/OSI"
 description: "Il modello ISO/OSI e i meccanismi di comunicazione tra host"
-date: 2026-08-29T20:44:00+02:00
+date: 2026-08-05T09:40:00+02:00
 show_in_posts: true
 weight: 10
 ---

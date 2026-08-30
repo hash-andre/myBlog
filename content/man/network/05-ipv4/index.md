@@ -1,7 +1,7 @@
 ---
 title: "05 — IPv4: Internet Protocol (livello 3)"
 description: "Header IPv4, frammentazione, CIDR, subnetting e NAT/PAT"
-date: 2026-08-29T21:01:00+02:00
+date: 2026-08-11T15:50:00+02:00
 show_in_posts: true
 math: true
 weight: 60

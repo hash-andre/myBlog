@@ -1,7 +1,7 @@
 ---
 title: "03 — One source, multiple views"
 description: "How manual pages also appear in posts, home, and RSS without copying content"
-date: 2026-08-29T22:47:00+02:00
+date: 2026-08-23T10:00:00+02:00
 show_in_posts: true
 weight: 40
 ---
@@ -40,7 +40,7 @@ content/man/network/05-ipv4/
 Its front matter opts into chronological views:
 
 ```yaml
-date: 2026-08-29T21:01:00+02:00
+date: 2026-08-11T15:50:00+02:00
 show_in_posts: true
 ```
 
@@ -121,7 +121,7 @@ Manual navigation uses `weight`; chronological navigation uses `date`. They are
 separate because they represent different orders:
 
 ```yaml
-date: 2026-08-29T21:02:20+02:00
+date: 2026-08-14T18:20:00+02:00
 weight: 100
 ```
 

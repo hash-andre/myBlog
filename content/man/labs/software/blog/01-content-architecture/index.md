@@ -1,7 +1,7 @@
 ---
 title: "01 — Content architecture and filesystem navigation"
 description: "How nested Hugo sections became a manual that behaves like a directory tree"
-date: 2026-08-29T20:30:00+02:00
+date: 2026-08-03T18:20:00+02:00
 show_in_posts: true
 weight: 20
 ---
@@ -180,6 +180,9 @@ list template discovers the new child through Hugo's page graph.
 That is the core rule of the architecture: the filesystem describes the
 information hierarchy, Hugo turns that hierarchy into page relationships, and
 the templates expose only the current directory.
+
+The file-by-file implementation is documented in
+[05 — Implementing the manual browser]({{< relref "/man/labs/software/blog/05-implementing-the-manual-browser" >}}).
 
 ## Verification
 

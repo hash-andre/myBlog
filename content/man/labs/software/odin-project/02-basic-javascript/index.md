@@ -1,7 +1,7 @@
 ---
 title: "02 — Basic JavaScript"
 description: "Fondamenti del linguaggio, runtime, DOM, eventi e problem solving"
-date: 2026-08-29T21:30:10+02:00
+date: 2026-08-19T17:20:00+02:00
 show_in_posts: true
 weight: 30
 ---

@@ -1,7 +1,7 @@
 ---
 title: "03 — Architettura wireless: IEEE 802.11"
 description: "Topologie Wi-Fi, frame 802.11 e CSMA/CA"
-date: 2026-08-29T21:00:10+02:00
+date: 2026-08-08T17:45:00+02:00
 show_in_posts: true
 weight: 40
 ---

@@ -1,7 +1,7 @@
 ---
 title: "01 — Basic CSS e Flexbox"
 description: "Selettori, cascade, box model, Flexbox e responsive design"
-date: 2026-08-29T21:30:00+02:00
+date: 2026-08-18T13:40:00+02:00
 show_in_posts: true
 weight: 20
 ---

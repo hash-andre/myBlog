@@ -1,7 +1,7 @@
 ---
 title: "00 — Basic HTML"
 description: "Struttura di una pagina, link, path e immagini in HTML"
-date: 2026-08-29T21:29:00+02:00
+date: 2026-08-18T09:10:00+02:00
 show_in_posts: true
 weight: 10
 ---

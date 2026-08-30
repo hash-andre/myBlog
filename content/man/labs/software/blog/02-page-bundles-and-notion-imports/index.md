@@ -1,7 +1,7 @@
 ---
 title: "02 — Page bundles and Notion imports"
 description: "How exported Markdown and images are converted into self-contained Hugo documents"
-date: 2026-08-29T20:45:00+02:00
+date: 2026-08-05T18:10:00+02:00
 show_in_posts: true
 weight: 30
 ---
@@ -105,7 +105,7 @@ page receives explicit front matter:
 ---
 title: "01 — Basic CSS e Flexbox"
 description: "Selettori, cascade, box model, Flexbox e responsive design"
-date: 2026-08-29T21:30:00+02:00
+date: 2026-08-18T13:40:00+02:00
 show_in_posts: true
 weight: 20
 ---

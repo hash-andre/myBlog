@@ -1,6 +1,6 @@
 ---
 title: "Blog engineering log"
-linkTitle: "blog"
+linkTitle: "blog-en"
 description: "Detailed decisions, changes, failures, and verification steps behind this website"
 weight: 10
 ---

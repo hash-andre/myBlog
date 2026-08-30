@@ -1,6 +1,7 @@
 +++
 title = 'Whoami'
 description = "Chi sono, cosa sto studiando e cosa sto costruendo"
+toc = false
 +++
 ---
 
@@ -22,9 +23,9 @@ Il mio obiettivo professionale è entrare nell’IT attraverso un ruolo di suppo
 
 Questo blog è la traccia pubblica del mio percorso.
 
-In [`/posts/`](/posts/) raccolgo articoli e riflessioni in ordine cronologico.
+In [`/posts/`]({{< relref "/posts" >}}) raccolgo articoli e riflessioni in ordine cronologico.
 
-In [`/man/`](/man/) organizzo appunti, laboratori e riferimenti tecnici come un manuale personale. Non vuole essere una raccolta di verità definitive: è documentazione che migliora insieme alla mia comprensione.
+In [`/man/`]({{< relref "/man" >}}) organizzo appunti, laboratori e riferimenti tecnici come un manuale personale. Non vuole essere una raccolta di verità definitive: è documentazione che migliora insieme alla mia comprensione.
 
 Costruisco questo sito con Hugo e Markdown, mantenendo intenzionalmente il progetto semplice, leggibile e sotto il mio controllo.
 

@@ -1,7 +1,7 @@
 ---
 title: "06 — VLAN e DHCP"
 description: "Segmentazione logica della rete e assegnazione dinamica degli indirizzi"
-date: 2026-08-29T21:01:10+02:00
+date: 2026-08-12T09:30:00+02:00
 show_in_posts: true
 math: true
 weight: 70

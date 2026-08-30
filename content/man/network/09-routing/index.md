@@ -1,7 +1,7 @@
 ---
 title: "09 — Router e routing"
 description: "Configurazione delle rotte statiche e introduzione al routing dinamico"
-date: 2026-08-29T21:02:20+02:00
+date: 2026-08-14T18:20:00+02:00
 show_in_posts: true
 weight: 100
 ---
