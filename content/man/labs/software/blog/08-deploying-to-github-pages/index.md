@@ -288,23 +288,68 @@ GitHub documents this prerequisite under
 
 ## Connecting and publishing the repository
 
-The local repository initially had no remote. It is connected with:
+The local repository initially had no remote. The first connection used the
+HTTPS URL supplied when the GitHub repository was created:
 
 ```bash
 git remote add origin https://github.com/hash-andre/myBlog.git
 ```
+
+That URL is correct, but the non-interactive shell had no HTTPS credential
+helper or token, so the first push could not ask for a username. An existing
+SSH key was already authorized for the `hash-andre` account. After verifying it
+with `ssh -T git@github.com`, the remote transport was changed without changing
+the destination repository:
+
+```bash
+git remote set-url origin git@github.com:hash-andre/myBlog.git
+```
+
+The remote was not completely empty: GitHub had created an independent
+`Initial commit` containing `LICENSE`. A normal push correctly rejected the
+non-fast-forward update. Instead of forcing it, the remote commit was fetched
+and integrated:
+
+```bash
+git fetch origin main
+git merge origin/main --allow-unrelated-histories --no-edit
+```
+
+This preserves both histories and the GitHub-created license. A force push was
+neither necessary nor appropriate.
 
 The source, workflow, submodule reference, and content are then recorded and
 published:
 
 ```bash
 git add -A
-git commit -m "Configure Hugo site and GitHub Pages deployment"
+git commit -m "Configure site content and GitHub Pages deployment"
 git push -u origin main
 ```
 
 The push triggers the workflow automatically. Future publication requires only
 a normal commit and push; `public/` is never added manually.
+
+## First workflow run and Pages bootstrap
+
+The first published workflow was run
+[`33304372188`](https://github.com/hash-andre/myBlog/actions/runs/33304372188).
+It stopped in the build job at `Setup Pages`; the Hugo installation, build,
+artifact upload, and deploy steps were skipped. This distinction matters: it
+was not a Hugo compilation failure.
+
+At that moment the GitHub repository API reported `has_pages: false`.
+`actions/configure-pages` could not read a Pages site because none had been
+created yet. Enabling Pages and selecting `GitHub Actions` as the source is a
+one-time repository bootstrap step. Once it is done, re-running the failed
+workflow or pushing another commit allows the same pipeline to proceed to the
+Hugo build.
+
+The workflow's built-in `GITHUB_TOKEN` cannot silently perform this first
+administrative enablement. The action supports an `enablement` option only when
+it receives a different token with repository administration and Pages write
+permissions. Keeping that privileged token out of the repository is preferable
+to adding a long-lived secret just to replace a single settings change.
 
 ## Local production verification
 
