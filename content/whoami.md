@@ -7,7 +7,7 @@ toc = false
 
 # Hello World.
 
-Vengo dalla chimica e oggi studio informatica con l’obiettivo di specializzarmi in cybersecurity.
+Vengo dalla chimica ed oggi studio informatica con l’obiettivo di specializzarmi in cybersecurity.
 
 In questo spazio condivido ciò che imparo su sistemi operativi, networking e sicurezza informatica, cercando di andare oltre il semplice utilizzo degli strumenti per comprenderne struttura, funzionamento e implicazioni.
 

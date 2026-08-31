@@ -1,7 +1,7 @@
 ---
 title: "Dare nuova vita ad un vecchio masterizzatore"
 description: "Riattivare un masterizzatore IDE/ATAPI come lettore audio standalone"
-date: 2026-08-30T20:18:00+02:00
+date: 2026-08-31T11:30:00+02:00
 show_in_posts: true
 weight: 10
 ---

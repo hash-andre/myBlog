@@ -20,6 +20,7 @@
             {{ end }}
             <div class="page-content man-document-content">
                 {{ .Content }}
+                {{ partial "man/document-navigation.html" . }}
             </div>
         </article>
     </main>

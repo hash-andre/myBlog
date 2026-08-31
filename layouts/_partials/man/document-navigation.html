@@ -1,0 +1,30 @@
+{{- $siblings := .Parent.RegularPages.ByWeight -}}
+{{- $navigation := newScratch -}}
+{{- range $index, $page := $siblings -}}
+    {{- if eq $page.RelPermalink $.RelPermalink -}}
+        {{- if gt $index 0 -}}
+            {{- $navigation.Set "previous" (index $siblings (sub $index 1)) -}}
+        {{- end -}}
+        {{- if lt (add $index 1) (len $siblings) -}}
+            {{- $navigation.Set "next" (index $siblings (add $index 1)) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- $previous := $navigation.Get "previous" -}}
+{{- $next := $navigation.Get "next" -}}
+{{- if or $previous $next }}
+<nav class="post-nav man-document-nav" aria-label="Navigazione tra i documenti">
+    {{- with $previous }}
+    <a class="post-nav-item post-nav-previous" href="{{ .RelPermalink }}" rel="prev">
+        <div class="nav-arrow">← Articolo precedente</div>
+        <span class="post-title">{{ .Title }}</span>
+    </a>
+    {{- end }}
+    {{- with $next }}
+    <a class="post-nav-item post-nav-next" href="{{ .RelPermalink }}" rel="next">
+        <div class="nav-arrow">Articolo successivo →</div>
+        <span class="post-title">{{ .Title }}</span>
+    </a>
+    {{- end }}
+</nav>
+{{- end -}}

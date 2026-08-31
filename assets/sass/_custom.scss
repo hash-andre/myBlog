@@ -150,6 +150,18 @@ button:focus:not(:focus-visible) {
   min-width: 0;
 }
 
+/* Previous and next documents follow the order shown in the current directory. */
+.man-document-nav {
+  .post-nav-previous {
+    margin-right: auto;
+  }
+
+  .post-nav-next {
+    margin-left: auto;
+    text-align: right;
+  }
+}
+
 .man-toc {
   align-self: start;
   grid-area: toc;

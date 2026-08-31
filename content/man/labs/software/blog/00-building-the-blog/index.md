@@ -30,7 +30,7 @@ hierarchy at the same time.
 ## The idea that started the project
 
 I found Leonardo Tamiano's article
-[How I manage my blog](https://blog.leonardotamiano.xyz/tech/how-i-manage-my-blog/).
+[How I manage my blog](https://blog.leonardotamiano.xyz/posts/how-I-manage-my-blog.html).
 His publishing pipeline is based on Emacs, Org mode, `ox-hugo`, and Hugo:
 
 ```text

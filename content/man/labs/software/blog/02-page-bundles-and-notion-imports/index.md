@@ -189,33 +189,5 @@ Markdown renderer:
 These are reviewed rather than removed blindly. A callout may become a normal
 paragraph or blockquote; a mixed example may need two separate code blocks.
 
-### 9. Review meaning, not only syntax
-
-A successful Hugo build proves that the content can be rendered. It does not
-prove that it is correct. Technical notes are checked for:
-
-- code that raises syntax or reference errors;
-- outdated command behavior;
-- statements that turn a rule of thumb into a false universal rule;
-- missing security or accessibility implications;
-- examples whose output does not match the code;
-- terminology that changes meaning when translated.
-
-The goal is to preserve the author's reasoning while making each step reliable.
-
-## Validation checklist
-
-For each imported collection:
-
-1. every Markdown image reference resolves inside its bundle;
-2. every copied resource is referenced, unless intentionally retained;
-3. no `%20`, Notion UUID, or exported directory path remains;
-4. no bare URL remains;
-5. code fences are balanced;
-6. the Hugo build completes without path warnings;
-7. the generated page contains the expected images and table of contents;
-8. the page appears in `/posts/` and `/posts/index.xml` when requested;
-9. the source ZIP remains unchanged.
-
-This procedure takes longer than copying the export, but it turns a private
-note dump into maintainable site content.
+## Isn't this time-consuming?
+Yes, but it can be automated. For now, Codex can fix this issue in less than a minute.
