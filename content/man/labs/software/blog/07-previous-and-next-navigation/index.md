@@ -1,9 +1,9 @@
 ---
-title: "09 — Adding previous and next document navigation"
+title: "07 — Adding previous and next document navigation"
 description: "How manual articles gained filesystem-aware links without modifying the theme"
 date: 2026-08-31T11:35:00+02:00
 show_in_posts: true
-weight: 100
+weight: 80
 ---
 
 ## The navigation rule
@@ -78,14 +78,3 @@ The theme already defines the `.post-nav`, `.post-nav-item`, `.nav-arrow`, and
 alignment rules in `_custom.scss`: the previous link stays on the left and the
 next link stays on the right. The theme's existing mobile and dark-mode rules
 continue to apply.
-
-## Verification
-
-The change is checked in the generated HTML for three cases:
-
-1. the first document has only a next link;
-2. a middle document has both previous and next links;
-3. the last document has only a previous link.
-
-The targets must match the order displayed by the containing manual directory,
-and every generated link must resolve to an existing page.

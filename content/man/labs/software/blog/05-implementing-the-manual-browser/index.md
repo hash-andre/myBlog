@@ -275,7 +275,7 @@ The `toc.html` partial still comes from the theme. Reusing it preserves the
 existing `toc` and `tocOpen` behavior. Only its position and manual-specific
 presentation changed; the theme submodule was not edited. The sidebar change is
 documented separately in
-[07 — Moving the table of contents to the right]({{< relref "/man/labs/software/blog/07-right-hand-table-of-contents" >}}).
+[06 — Moving the table of contents to the right]({{< relref "/man/labs/software/blog/06-right-hand-table-of-contents" >}}).
 
 These files live in the project `layouts/` directory. Hugo gives project
 templates precedence over matching theme templates, so the theme submodule did
@@ -319,35 +319,3 @@ For `/man/labs/software/blog/`, the complete path is now:
 For one numbered article, step 2 selects `layouts/man/single.html` instead. The
 article receives a breadcrumb, reading column, and right-hand table of contents,
 but no child listing.
-
-## What must change when the tree grows
-
-Adding a new directory requires a new `_index.md` with its metadata. Adding a
-new document requires a leaf bundle with `index.md`. Neither operation requires
-editing the list template, entry partial, breadcrumb partial, or a central
-navigation table.
-
-That is the concrete meaning of the original architecture statement: the
-content tree supplies the relationships, the two templates choose how to
-render a branch or leaf, and the partials expose Hugo's existing page graph.
-
-## Verification
-
-After these changes, the source and generated behavior were checked with:
-
-```bash
-hugo --cleanDestinationDir --printPathWarnings
-```
-
-The useful assertions are:
-
-- `/man/` contains only its immediate sections;
-- a nested section contains only its immediate children;
-- section labels end in `/` and document labels do not;
-- weights control directory order;
-- breadcrumbs contain the real ancestors in the correct order;
-- leaf pages use the document template and place their table of contents in the
-  right column on wide screens;
-- `toc: false` produces neither the sidebar nor an unused grid column;
-- narrow screens move the collapsible TOC between the document header and body;
-- the build reports no missing templates or path warnings.

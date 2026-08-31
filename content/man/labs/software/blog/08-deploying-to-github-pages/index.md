@@ -2,8 +2,11 @@
 title: "08 — Deploying the Hugo site to GitHub Pages"
 description: "Continuous deployment with the workflow recommended by the official Hugo documentation"
 date: 2026-08-30T11:20:00+02:00
-show_in_posts: true
+show_in_posts: false
 weight: 90
+build:
+  render: never
+  list: never
 ---
 
 ## Deployment target
